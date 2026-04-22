@@ -283,8 +283,8 @@ const BOOKS = [
     sub: "A Perseus Retelling",
     blurb: "A brutal reimagining of the Perseus myth. Monsters are not born in the sea — they are made by gods, by pride, and by the silence of those who could have spoken.",
     badge: "Adult Readers",
-    amazon: "https://www.amazon.com/dp/B0DWV1XDJN?binding=kindle_edition&ref=dbs_dp_rwt_sb_pc_tkin", // ← Replace
-    goodreads: "https://www.goodreads.com/book/show/250810191-legacy-of-the-storm-book-one", // ← Replace
+    amazon: "https://www.amazon.com/dp/B0G2JX1X5H", // ← Replace
+    goodreads: "https://www.goodreads.com/book/show/250810191-legacy-of-the-storm-book-one" // ← Replace
   },
   {
     id: "ash",
@@ -295,8 +295,8 @@ const BOOKS = [
     sub: "A Chronicle of a Dying Age",
     blurb: "Five stories bound by a mythology of Four Fires. The Scribe of Cinders writes from the wreckage. Every tale burns differently — but all of them leave a mark.",
     badge: "Adult Readers",
-    amazon: "https://www.amazon.com/dp/B0DFMSKM2T?binding=kindle_edition&ref=dbs_dp_rwt_sb_pc_tkin", // ← Replace
-    goodreads: "https://www.goodreads.com/book/show/250811317-ash-ember-a-chronicle-of-a-dying-age-volume-one", // ← Replace
+    amazon: "https://www.amazon.com/dp/B0D7P3FR2F", // ← Replace
+    goodreads: "https://www.goodreads.com/book/show/250811317-ash-ember-a-chronicle-of-a-dying-age-volume-one" // ← Replace
   },
   {
     id: "scoot",
@@ -307,8 +307,8 @@ const BOOKS = [
     sub: "An Ongoing Series",
     blurb: "A young hero, a cursed warrior, a world where death is not the end — only the beginning of harder questions. Dark, funny, and full of heart.",
     badge: "YA · Teen & Up",
-    amazon: "https://www.amazon.com/dp/B0D1VXH1R9?binding=kindle_edition&ref=dbs_dp_rwt_sb_pc_tkin", // ← Replace
-    goodreads: "https://www.goodreads.com/book/show/250808437-scoot-and-the-death-knight-volume-one", // ← Replace
+    amazon: "https://www.amazon.com/dp/B0G3QMYYH8", // ← Replace
+    goodreads: "https://www.goodreads.com/book/show/250808437-scoot-and-the-death-knight-volume-one" // ← Replace
   },
 ];
 
