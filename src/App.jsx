@@ -1,4 +1,10 @@
 import { useState, useEffect, useRef } from "react";
+import { useForm, ValidationError } from "@formspree/react";
+
+// ── TOGGLE COMMISSIONS ON/OFF ─────────────────────────────────────────────────
+// Set to false when you're busy — visitors will see a polite closed message
+const COMMISSIONS_OPEN = true;
+// ─────────────────────────────────────────────────────────────────────────────
 
 const GFONTS = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Upright:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Cormorant+SC:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400;1,600&family=Raleway:wght@300;400;500;600&display=swap');`;
 
@@ -163,7 +169,11 @@ section{padding:8rem 2rem;position:relative;}
 
 footer{padding:4rem 2rem;text-align:center;border-top:1px solid rgba(192,144,64,.06);background:var(--void);position:relative;}
 footer::before{content:'';position:absolute;top:0;left:25%;right:25%;height:1px;background:linear-gradient(to right,transparent,rgba(192,144,64,.2),transparent);}
-.footer-name{font-family:var(--font-myth);font-size:2rem;font-weight:300;color:rgba(192,144,64,.15);margin-bottom:1rem;letter-spacing:.06em;}
+.footer-name{font-family:var(--font-myth);font-size:2rem;font-weight:300;color:rgba(192,144,64,.15);margin-bottom:1.5rem;letter-spacing:.06em;}
+.footer-social{display:flex;justify-content:center;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap;}
+.footer-social a{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font-label);font-size:.55rem;letter-spacing:.3em;font-weight:500;text-transform:uppercase;color:var(--ash);text-decoration:none;opacity:.6;transition:all .3s;padding:.4rem .8rem;border:1px solid transparent;}
+.footer-social a:hover{opacity:1;color:var(--gilt);border-color:rgba(192,144,64,.2);}
+.footer-social-divider{width:1px;height:14px;background:rgba(192,144,64,.15);}
 .footer-copy{font-family:var(--font-label);font-size:.5rem;letter-spacing:.4em;font-weight:400;text-transform:uppercase;color:var(--ash);opacity:.3;}
 
 @media(max-width:900px){
@@ -181,6 +191,70 @@ footer::before{content:'';position:absolute;top:0;left:25%;right:25%;height:1px;
   .hero-btns{flex-direction:column;align-items:center;}
   .book-links{flex-direction:column;}
 }
+
+/* COMMISSIONS */
+#commissions{background:var(--void);}
+#commissions::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(192,144,64,.2),transparent);}
+.comm-layout{display:grid;grid-template-columns:1fr 1.8fr;gap:6rem;align-items:start;margin-top:3rem;}
+.comm-lore{position:sticky;top:6rem;}
+.comm-lore p{color:var(--ash);font-size:1rem;line-height:1.8;margin-bottom:1.2rem;}
+.comm-services{display:flex;flex-direction:column;gap:.8rem;margin-bottom:2rem;}
+.comm-service{padding:1rem 1.2rem;border:1px solid rgba(192,144,64,.1);background:var(--shadow);display:flex;align-items:flex-start;gap:1rem;}
+.comm-service-icon{font-size:1.4rem;flex-shrink:0;margin-top:.1rem;}
+.comm-service-title{font-family:var(--font-head);font-size:.85rem;font-weight:600;color:var(--parch);margin-bottom:.2rem;letter-spacing:.03em;}
+.comm-service-desc{font-size:.9rem;color:var(--ash);line-height:1.6;}
+.comm-closed{background:var(--shadow);border:1px solid rgba(192,144,64,.1);padding:2.5rem;position:relative;text-align:center;}
+.comm-closed::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,rgba(138,154,170,.2),transparent);}
+.comm-closed-icon{font-size:2.5rem;margin-bottom:1rem;opacity:.5;}
+.comm-closed-title{font-family:var(--font-head);font-size:1.1rem;color:var(--smoke);margin-bottom:.8rem;letter-spacing:.04em;}
+.comm-closed-text{font-style:italic;color:var(--ash);font-size:1rem;line-height:1.75;}
+.comm-form{background:var(--shadow);border:1px solid rgba(192,144,64,.1);position:relative;}
+.comm-form::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:.3;pointer-events:none;}
+.comm-form-inner{padding:2.5rem;}
+.comm-field{margin-bottom:1.2rem;}
+.comm-label{display:block;font-family:var(--font-label);font-size:.52rem;letter-spacing:.35em;font-weight:500;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;opacity:.8;}
+.comm-input{width:100%;background:rgba(0,0,0,.4);border:1px solid rgba(138,154,170,.15);padding:.7rem 1rem;color:var(--smoke);font-family:var(--font-body);font-size:1rem;outline:none;transition:border-color .3s;}
+.comm-input:focus{border-color:rgba(192,144,64,.4);}
+.comm-select{width:100%;background:rgba(0,0,0,.6);border:1px solid rgba(138,154,170,.15);padding:.7rem 1rem;color:var(--smoke);font-family:var(--font-body);font-size:1rem;outline:none;transition:border-color .3s;cursor:pointer;appearance:none;-webkit-appearance:none;}
+.comm-select:focus{border-color:rgba(192,144,64,.4);}
+.comm-textarea{width:100%;background:rgba(0,0,0,.4);border:1px solid rgba(138,154,170,.15);padding:.7rem 1rem;color:var(--smoke);font-family:var(--font-body);font-size:1rem;outline:none;resize:vertical;min-height:120px;transition:border-color .3s;line-height:1.6;}
+.comm-textarea:focus{border-color:rgba(192,144,64,.4);}
+.comm-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.comm-submit{width:100%;padding:.9rem 2rem;background:linear-gradient(135deg,rgba(191,63,16,.25),rgba(191,63,16,.08));border:1px solid rgba(191,63,16,.5);color:var(--flare);font-family:var(--font-label);font-size:.6rem;letter-spacing:.35em;font-weight:500;text-transform:uppercase;cursor:pointer;transition:all .35s;margin-top:.5rem;position:relative;z-index:2;}
+.comm-submit:hover{box-shadow:0 0 30px rgba(191,63,16,.2);border-color:var(--flame);}
+.comm-submit:disabled{opacity:.4;cursor:not-allowed;}
+.comm-success{text-align:center;padding:2rem 0;animation:rise .4s ease both;}
+.comm-success-icon{font-size:2rem;margin-bottom:1rem;}
+.comm-success-title{font-family:var(--font-head);font-size:1.1rem;color:var(--gilt);margin-bottom:.6rem;}
+.comm-success-text{font-style:italic;color:var(--ash);font-size:1rem;line-height:1.7;}
+.comm-note{font-family:var(--font-label);font-size:.5rem;letter-spacing:.2em;color:var(--ash);opacity:.45;margin-top:1rem;text-align:center;line-height:1.6;}
+@media(max-width:900px){.comm-layout{grid-template-columns:1fr;gap:3rem;}.comm-lore{position:static;}.comm-row{grid-template-columns:1fr;}}
+
+/* PRICING TIERS */
+.pricing-block{margin-bottom:2rem;}
+.pricing-block-title{font-family:var(--font-label);font-size:.52rem;letter-spacing:.45em;font-weight:600;text-transform:uppercase;color:var(--ember);margin-bottom:.8rem;display:flex;align-items:center;gap:.6rem;}
+.pricing-block-title::after{content:'';flex:1;height:1px;background:rgba(191,63,16,.2);}
+.pricing-tiers{display:flex;flex-direction:column;gap:.5rem;}
+.ptier{padding:.9rem 1.1rem;border:1px solid rgba(192,144,64,.1);background:rgba(0,0,0,.2);display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;transition:border-color .3s;}
+.ptier:hover{border-color:rgba(192,144,64,.25);}
+.ptier-info{}
+.ptier-name{font-family:var(--font-head);font-size:.85rem;font-weight:600;color:var(--parch);margin-bottom:.25rem;letter-spacing:.02em;}
+.ptier-desc{font-size:.85rem;color:var(--ash);line-height:1.5;}
+.ptier-price{font-family:var(--font-myth);font-size:1.1rem;font-weight:400;color:var(--gilt);white-space:nowrap;letter-spacing:.02em;}
+.ptier-gumroad{display:inline-flex;align-items:center;gap:.3rem;margin-top:.5rem;font-family:var(--font-label);font-size:.48rem;letter-spacing:.2em;font-weight:500;text-transform:uppercase;color:var(--flame);text-decoration:none;opacity:.7;transition:opacity .2s;}
+.ptier-gumroad:hover{opacity:1;}
+
+/* T&Cs */
+.tnc-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:1px solid rgba(192,144,64,.1);padding:.9rem 1.2rem;cursor:pointer;transition:border-color .3s;margin-top:1.5rem;}
+.tnc-toggle:hover{border-color:rgba(192,144,64,.25);}
+.tnc-toggle-label{font-family:var(--font-label);font-size:.52rem;letter-spacing:.35em;font-weight:500;text-transform:uppercase;color:var(--gold);}
+.tnc-toggle-icon{color:var(--gold);font-size:.8rem;transition:transform .3s;}
+.tnc-toggle-icon.open{transform:rotate(180deg);}
+.tnc-body{border:1px solid rgba(192,144,64,.1);border-top:none;padding:1.5rem;animation:rise .3s ease both;}
+.tnc-body h4{font-family:var(--font-label);font-size:.52rem;letter-spacing:.35em;font-weight:600;text-transform:uppercase;color:var(--ember);margin:1rem 0 .5rem;}
+.tnc-body h4:first-child{margin-top:0;}
+.tnc-body p,.tnc-body li{font-size:.9rem;color:var(--ash);line-height:1.7;margin-bottom:.3rem;}
+.tnc-body ul{padding-left:1.2rem;}
 `;
 
 // ── Ember Canvas ──────────────────────────────────────────────────────────────
@@ -552,6 +626,250 @@ function OracleQuiz() {
   );
 }
 
+// ── Commissions ───────────────────────────────────────────────────────────────
+function CommissionsForm() {
+  const [state, handleSubmit] = useForm("mdayylon");
+
+  if (state.succeeded) {
+    return (
+      <div className="comm-form">
+        <div className="comm-form-inner">
+          <div className="comm-success">
+            <div className="comm-success-icon">✦</div>
+            <div className="comm-success-title">Brief Received</div>
+            <p className="comm-success-text">
+              Thank you — your brief has been sent. I'll review it and be in touch within a few days.
+              <br /><br />
+              Good things take time. I'll give yours the attention it deserves.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="comm-form">
+      <div className="comm-form-inner">
+        <form onSubmit={handleSubmit}>
+
+          <div className="comm-field">
+            <label className="comm-label" htmlFor="service">Service Required *</label>
+            <select id="service" name="service" className="comm-select" required>
+              <option value="">— Select a service —</option>
+              <option value="Book Cover Design">Book Cover Design</option>
+              <option value="Manuscript Review">Manuscript Review</option>
+              <option value="Both — Cover & Review">Both — Cover &amp; Review</option>
+            </select>
+            <ValidationError field="service" errors={state.errors} style={{ color: "var(--flame)", fontSize: ".8rem" }} />
+          </div>
+
+          <div className="comm-row">
+            <div className="comm-field">
+              <label className="comm-label" htmlFor="name">Your Name *</label>
+              <input id="name" name="name" className="comm-input" placeholder="Name" required />
+              <ValidationError field="name" errors={state.errors} style={{ color: "var(--flame)", fontSize: ".8rem" }} />
+            </div>
+            <div className="comm-field">
+              <label className="comm-label" htmlFor="email">Email Address *</label>
+              <input id="email" name="email" type="email" className="comm-input" placeholder="you@example.com" required />
+              <ValidationError field="email" errors={state.errors} style={{ color: "var(--flame)", fontSize: ".8rem" }} />
+            </div>
+          </div>
+
+          <div className="comm-row">
+            <div className="comm-field">
+              <label className="comm-label" htmlFor="budget">Budget (USD)</label>
+              <select id="budget" name="budget" className="comm-select">
+                <option value="">— Approximate budget —</option>
+                <option value="Under $50">Under $50</option>
+                <option value="$50–$100">$50–$100</option>
+                <option value="$100–$250">$100–$250</option>
+                <option value="$250–$500">$250–$500</option>
+                <option value="$500+">$500+</option>
+                <option value="Open to discussion">Open to discussion</option>
+              </select>
+            </div>
+            <div className="comm-field">
+              <label className="comm-label" htmlFor="timeline">Timeline</label>
+              <select id="timeline" name="timeline" className="comm-select">
+                <option value="">— When do you need it? —</option>
+                <option value="Within 2 weeks">Within 2 weeks</option>
+                <option value="Within a month">Within a month</option>
+                <option value="1–3 months">1–3 months</option>
+                <option value="Flexible">Flexible</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="comm-field">
+            <label className="comm-label" htmlFor="brief">Your Brief *</label>
+            <textarea
+              id="brief"
+              name="brief"
+              className="comm-textarea"
+              placeholder="Tell me about your project — genre, tone, what you're looking for, any references or ideas you have in mind…"
+              rows={6}
+              required
+            />
+            <ValidationError field="brief" errors={state.errors} style={{ color: "var(--flame)", fontSize: ".8rem" }} />
+          </div>
+
+          <ValidationError errors={state.errors} style={{ color: "var(--flame)", fontFamily: "var(--font-label)", fontSize: ".6rem", letterSpacing: ".1em", marginBottom: ".8rem", display: "block" }} />
+
+          <button className="comm-submit" type="submit" disabled={state.submitting}>
+            {state.submitting ? "Sending…" : "✦ Submit Brief"}
+          </button>
+
+          <p className="comm-note">
+            I'll review your brief and respond within 2–4 business days.<br />
+            Payment details will be shared once we've agreed on scope.
+          </p>
+
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function TandCs() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button className="tnc-toggle" onClick={() => setOpen(o => !o)}>
+        <span className="tnc-toggle-label">Terms & Conditions</span>
+        <span className={`tnc-toggle-icon${open ? " open" : ""}`}>▾</span>
+      </button>
+      {open && (
+        <div className="tnc-body">
+          <h4>Payment</h4>
+          <p>A 50% deposit is required to secure your slot. The remaining 50% is due before final files are delivered. Payment is via Gumroad (international cards accepted).</p>
+          <h4>Turnaround</h4>
+          <ul>
+            <li>Book Cover Design: 2–3 weeks from deposit received</li>
+            <li>Manuscript Review: 3–4 weeks from deposit received</li>
+            <li>Timelines may vary by queue. Your estimated start date will be confirmed upfront.</li>
+          </ul>
+          <h4>Revisions</h4>
+          <p>Two rounds of revisions are included. Additional rounds are billed at $20 each, requested within 14 days of delivery.</p>
+          <h4>Cancellation</h4>
+          <p>The deposit is non-refundable once work has commenced. Cancellation before work begins receives a full refund minus transaction fees.</p>
+          <h4>Rights & Ownership</h4>
+          <p>Upon full payment, the client owns all rights to the final work. Peter Brendan retains the right to display completed work in his portfolio unless otherwise agreed in writing.</p>
+          <h4>What's Included</h4>
+          <ul>
+            <li>Cover Design: High-resolution JPG and PNG sized for Amazon KDP and print-on-demand. Does not include interior formatting or typography layout.</li>
+            <li>Manuscript Review: Written feedback on plot, pacing, character, world-building, and prose. Does not include line editing, copyediting, or proofreading.</li>
+          </ul>
+          <h4>Queue & Availability</h4>
+          <p>Your slot is confirmed only after deposit receipt. Submitting a brief does not guarantee availability — Peter will confirm before any payment is requested.</p>
+          <h4>Communication</h4>
+          <p>All communication is via email. Response time is 1–3 business days. Peter reserves the right to decline any commission without obligation to provide a reason.</p>
+        </div>
+      )}
+    </>
+  );
+}
+
+const PRICING = {
+  cover: [
+    { name: "Standard", price: "$40–75", desc: "Template customised with your title, author name, and stock imagery. Fast turnaround.", gumroad: "https://gumroad.com" },
+    { name: "Custom", price: "$120–200", desc: "Original composition built for your manuscript. Mood-matched imagery, 2 revision rounds.", gumroad: "https://gumroad.com" },
+    { name: "Premium", price: "$300–500", desc: "Illustrated or painted cover with full series branding. 3 revision rounds. Quote on request.", gumroad: "https://gumroad.com" },
+  ],
+  review: [
+    { name: "Short Story", price: "$40–80", desc: "Up to 15,000 words. Written feedback on plot, pacing, character, and prose.", gumroad: "https://gumroad.com" },
+    { name: "Novella", price: "$100–180", desc: "15,000–40,000 words. Feedback plus line-level notes on select passages.", gumroad: "https://gumroad.com" },
+    { name: "Novel", price: "$200–350", desc: "40,000–100,000 words. Full manuscript critique and detailed written report.", gumroad: "https://gumroad.com" },
+  ],
+};
+
+function CommissionsSection() {
+  return (
+    <section id="commissions">
+      <div className="si">
+        <div className="comm-layout">
+          <div className="comm-lore">
+            <div className="slabel"><div className="slabel-line" />Services</div>
+            <h2 className="stitle">Commissions<br />&amp; Services</h2>
+            <div className="comm-services">
+              <div className="comm-service">
+                <span className="comm-service-icon">🎨</span>
+                <div>
+                  <div className="comm-service-title">Book Cover Design</div>
+                  <p className="comm-service-desc">Dark fantasy, literary fiction, and YA covers. Atmospheric, distinctive, built to stand out on Amazon.</p>
+                </div>
+              </div>
+              <div className="comm-service">
+                <span className="comm-service-icon">📜</span>
+                <div>
+                  <div className="comm-service-title">Manuscript Review</div>
+                  <p className="comm-service-desc">Developmental feedback on fantasy and speculative fiction. Pacing, world-building, character, and prose — honest and constructive.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="pricing-block">
+              <div className="pricing-block-title">Cover Design</div>
+              <div className="pricing-tiers">
+                {PRICING.cover.map(t => (
+                  <div key={t.name} className="ptier">
+                    <div className="ptier-info">
+                      <div className="ptier-name">{t.name}</div>
+                      <div className="ptier-desc">{t.desc}</div>
+                      <a className="ptier-gumroad" href={t.gumroad} target="_blank" rel="noopener noreferrer">↗ Pay deposit via Gumroad</a>
+                    </div>
+                    <div className="ptier-price">{t.price}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="pricing-block">
+              <div className="pricing-block-title">Manuscript Review</div>
+              <div className="pricing-tiers">
+                {PRICING.review.map(t => (
+                  <div key={t.name} className="ptier">
+                    <div className="ptier-info">
+                      <div className="ptier-name">{t.name}</div>
+                      <div className="ptier-desc">{t.desc}</div>
+                      <a className="ptier-gumroad" href={t.gumroad} target="_blank" rel="noopener noreferrer">↗ Pay deposit via Gumroad</a>
+                    </div>
+                    <div className="ptier-price">{t.price}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <TandCs />
+          </div>
+
+          <div>
+            {COMMISSIONS_OPEN ? (
+              <CommissionsForm />
+            ) : (
+              <div className="comm-closed">
+                <div className="comm-closed-icon">🕯️</div>
+                <div className="comm-closed-title">Commissions Currently Closed</div>
+                <p className="comm-closed-text">
+                  I'm not taking on new commissions at the moment — current projects have my full attention.
+                  <br /><br />
+                  Check back soon, or follow me on Instagram to be notified when commissions reopen.
+                </p>
+                <div style={{ marginTop: "1.5rem" }}>
+                  <a href="https://www.instagram.com/peterdwrites" target="_blank" rel="noopener noreferrer" className="btn-gilt" style={{ fontSize: ".58rem" }}>
+                    📸 Follow for Updates
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ── App ───────────────────────────────────────────────────────────────────────
 export default function App() {
   return (
@@ -565,7 +883,9 @@ export default function App() {
         <ul className="nav-links">
           <li><button onClick={() => scrollTo("books")}>Works</button></li>
           <li><button onClick={() => scrollTo("oracle")}>Oracle</button></li>
+          <li><button onClick={() => scrollTo("commissions")}>Services</button></li>
           <li><button onClick={() => scrollTo("about")}>About</button></li>
+          <li><a href="https://linktr.ee/peterbrendanwrites" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "var(--font-label)", fontSize: ".62rem", letterSpacing: ".3em", textTransform: "uppercase", color: "var(--gilt)", textDecoration: "none", transition: "color .3s", opacity: .8 }}>Follow</a></li>
         </ul>
       </nav>
 
@@ -639,6 +959,9 @@ export default function App() {
         </div>
       </section>
 
+      {/* COMMISSIONS */}
+      <CommissionsSection />
+
       {/* ABOUT */}
       <section id="about">
         <div className="si">
@@ -664,9 +987,47 @@ export default function App() {
         </div>
       </section>
 
+      {/* FOLLOW STRIP */}
+      <div style={{
+        background: "var(--shadow)",
+        borderTop: "1px solid rgba(192,144,64,.08)",
+        borderBottom: "1px solid rgba(192,144,64,.08)",
+        padding: "3rem 2rem",
+        textAlign: "center",
+      }}>
+        <div style={{ maxWidth: 600, margin: "0 auto" }}>
+          <div className="slabel" style={{ justifyContent: "center", marginBottom: "1rem" }}>
+            <div className="slabel-line" />Follow the Journey<div className="slabel-line" />
+          </div>
+          <p style={{ fontFamily: "var(--font-body)", fontStyle: "italic", color: "var(--ash)", fontSize: "1rem", marginBottom: "1.8rem", lineHeight: 1.7 }}>
+            New stories, updates, and the occasional dispatch from the edge of myth and shadow.
+          </p>
+          <div style={{ display: "flex", justifyContent: "center", gap: "1rem", flexWrap: "wrap" }}>
+            <a href="https://www.instagram.com/peterdwrites" target="_blank" rel="noopener noreferrer" className="btn-gilt" style={{ fontSize: ".58rem", padding: ".7rem 1.6rem" }}>
+              📸 Instagram
+            </a>
+            <a href="https://www.threads.com/@peterdwrites" target="_blank" rel="noopener noreferrer" className="btn-gilt" style={{ fontSize: ".58rem", padding: ".7rem 1.6rem" }}>
+              🧵 Threads
+            </a>
+            <a href="https://linktr.ee/peterbrendanwrites" target="_blank" rel="noopener noreferrer" className="btn-fire" style={{ fontSize: ".58rem", padding: ".7rem 1.6rem" }}>
+              ✦ All Links
+            </a>
+          </div>
+        </div>
+      </div>
+
       <footer>
         <div className="footer-name">Peter Brendan</div>
-        <p className="footer-copy">© {new Date().getFullYear()} · All Rights Reserved · Forged in Fire</p>
+        <div className="footer-social">
+          <a href="https://www.instagram.com/peterdwrites" target="_blank" rel="noopener noreferrer">📸 Instagram</a>
+          <div className="footer-social-divider" />
+          <a href="https://www.threads.com/@peterdwrites" target="_blank" rel="noopener noreferrer">🧵 Threads</a>
+          <div className="footer-social-divider" />
+          <a href="https://linktr.ee/peterbrendanwrites" target="_blank" rel="noopener noreferrer">🔗 Linktree</a>
+          <div className="footer-social-divider" />
+          <a href="https://www.goodreads.com/author/show/peterbrendan" target="_blank" rel="noopener noreferrer">📗 Goodreads</a>
+        </div>
+        <p className="footer-copy">© {new Date().getFullYear()} Peter Brendan · All Rights Reserved · Forged in Fire</p>
       </footer>
     </>
   );
