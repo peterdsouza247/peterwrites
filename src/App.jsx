@@ -3,7 +3,7 @@ import { useForm, ValidationError } from "@formspree/react";
 
 // ── TOGGLE COMMISSIONS ON/OFF ─────────────────────────────────────────────────
 // Set to false when you're busy — visitors will see a polite closed message
-const COMMISSIONS_OPEN = true;
+const COMMISSIONS_OPEN = false;
 // ─────────────────────────────────────────────────────────────────────────────
 
 const GFONTS = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Upright:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Cormorant+SC:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400;1,600&family=Raleway:wght@300;400;500;600&display=swap');`;
