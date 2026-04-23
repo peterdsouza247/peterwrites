@@ -722,8 +722,8 @@ function CommissionsForm() {
           </button>
 
           <p className="comm-note">
-            I'll review your brief and respond within 2–4 business days.<br />
-            Payment details will be shared once we've agreed on scope.
+            Submitting this form starts a conversation — no commitment, no payment yet.<br />
+            I'll review your brief and reply within 2–4 business days.
           </p>
 
         </form>
@@ -743,7 +743,7 @@ function TandCs() {
       {open && (
         <div className="tnc-body">
           <h4>Payment</h4>
-          <p>A 50% deposit is required to secure your slot. The remaining 50% is due before final files are delivered. Payment is via Gumroad (international cards accepted).</p>
+          <p>No payment is requested until after we've discussed your brief, agreed on scope, and you're happy to proceed. A 50% deposit is then required to secure your slot, with the remaining 50% due before final files are delivered. Payment is handled securely via Gumroad — a payment link will be sent to you directly once we've agreed on the project.</p>
           <h4>Turnaround</h4>
           <ul>
             <li>Book Cover Design: 2–3 weeks from deposit received</li>
@@ -758,11 +758,11 @@ function TandCs() {
           <p>Upon full payment, the client owns all rights to the final work. Peter Brendan retains the right to display completed work in his portfolio unless otherwise agreed in writing.</p>
           <h4>What's Included</h4>
           <ul>
-            <li>Cover Design: High-resolution JPG and PNG sized for Amazon KDP and print-on-demand. Does not include interior formatting or typography layout.</li>
+            <li>Cover Design: Covers are created using digital design tools and generated imagery. Covers are not hand-drawn or hand-illustrated. Final files delivered as high-resolution JPG and PNG, sized for Amazon KDP and print-on-demand. Does not include interior formatting or typography layout.</li>
             <li>Manuscript Review: Written feedback on plot, pacing, character, world-building, and prose. Does not include line editing, copyediting, or proofreading.</li>
           </ul>
           <h4>Queue & Availability</h4>
-          <p>Your slot is confirmed only after deposit receipt. Submitting a brief does not guarantee availability — Peter will confirm before any payment is requested.</p>
+          <p>Submitting a brief starts a conversation — it does not commit you to anything. Peter will review your brief, confirm availability, and discuss scope before any payment is requested. Your slot is only secured once the deposit is received.</p>
           <h4>Communication</h4>
           <p>All communication is via email. Response time is 1–3 business days. Peter reserves the right to decline any commission without obligation to provide a reason.</p>
         </div>
@@ -773,14 +773,14 @@ function TandCs() {
 
 const PRICING = {
   cover: [
-    { name: "Standard", price: "$40–75", desc: "Template customised with your title, author name, and stock imagery. Fast turnaround.", gumroad: "https://gumroad.com" },
-    { name: "Custom", price: "$120–200", desc: "Original composition built for your manuscript. Mood-matched imagery, 2 revision rounds.", gumroad: "https://gumroad.com" },
-    { name: "Premium", price: "$300–500", desc: "Illustrated or painted cover with full series branding. 3 revision rounds. Quote on request.", gumroad: "https://gumroad.com" },
+    { name: "Basic", price: "$15–25", desc: "Digital design using stock imagery, your title, and author name. Clean, professional, fast turnaround." },
+    { name: "Standard", price: "$40–60", desc: "Custom digital composition with generated imagery, mood-matched to your manuscript. 1 revision round." },
+    { name: "Custom", price: "$80–120", desc: "Bespoke digital design with generated artwork tailored to your story's identity. 2 revision rounds." },
   ],
   review: [
-    { name: "Short Story", price: "$40–80", desc: "Up to 15,000 words. Written feedback on plot, pacing, character, and prose.", gumroad: "https://gumroad.com" },
-    { name: "Novella", price: "$100–180", desc: "15,000–40,000 words. Feedback plus line-level notes on select passages.", gumroad: "https://gumroad.com" },
-    { name: "Novel", price: "$200–350", desc: "40,000–100,000 words. Full manuscript critique and detailed written report.", gumroad: "https://gumroad.com" },
+    { name: "Short Story", price: "$20–35", desc: "Up to 15,000 words. Written feedback on plot, character, pacing, and prose." },
+    { name: "Novella", price: "$50–80", desc: "15,000–40,000 words. Feedback plus notes on key passages and structural observations." },
+    { name: "Novel", price: "$100–150", desc: "40,000–100,000 words. Full manuscript critique and detailed written report." },
   ],
 };
 
@@ -797,7 +797,7 @@ function CommissionsSection() {
                 <span className="comm-service-icon">🎨</span>
                 <div>
                   <div className="comm-service-title">Book Cover Design</div>
-                  <p className="comm-service-desc">Dark fantasy, literary fiction, and YA covers. Atmospheric, distinctive, built to stand out on Amazon.</p>
+                  <p className="comm-service-desc">Dark fantasy, literary fiction, and YA covers created using digital design tools and generated imagery. Atmospheric and built to stand out on Amazon. Not hand-illustrated — see pricing for what's included at each tier.</p>
                 </div>
               </div>
               <div className="comm-service">
@@ -817,7 +817,6 @@ function CommissionsSection() {
                     <div className="ptier-info">
                       <div className="ptier-name">{t.name}</div>
                       <div className="ptier-desc">{t.desc}</div>
-                      <a className="ptier-gumroad" href={t.gumroad} target="_blank" rel="noopener noreferrer">↗ Pay deposit via Gumroad</a>
                     </div>
                     <div className="ptier-price">{t.price}</div>
                   </div>
@@ -833,12 +832,15 @@ function CommissionsSection() {
                     <div className="ptier-info">
                       <div className="ptier-name">{t.name}</div>
                       <div className="ptier-desc">{t.desc}</div>
-                      <a className="ptier-gumroad" href={t.gumroad} target="_blank" rel="noopener noreferrer">↗ Pay deposit via Gumroad</a>
                     </div>
                     <div className="ptier-price">{t.price}</div>
                   </div>
                 ))}
               </div>
+            </div>
+
+            <div style={{ marginTop: "1rem", marginBottom: ".5rem", fontFamily: "var(--font-label)", fontSize: ".5rem", letterSpacing: ".25em", color: "var(--ash)", opacity: .6, textTransform: "uppercase" }}>
+              🔒 Payments handled securely via Gumroad — details shared after we've agreed on scope
             </div>
 
             <TandCs />
