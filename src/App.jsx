@@ -3,7 +3,7 @@ import { useForm, ValidationError } from "@formspree/react";
 
 // ── TOGGLE COMMISSIONS ON/OFF ─────────────────────────────────────────────────
 // Set to false when you're busy — visitors will see a polite closed message
-const COMMISSIONS_OPEN = true;
+const COMMISSIONS_OPEN = false;
 // ─────────────────────────────────────────────────────────────────────────────
 
 const GFONTS = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Upright:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Cormorant+SC:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400;1,600&family=Raleway:wght@300;400;500;600&display=swap');`;
@@ -402,9 +402,9 @@ const scrollTo = (id) =>
 
 // ── Carousel ──────────────────────────────────────────────────────────────────
 const COVERS = [
-  { title: "Scoot & the Death Knight", sub: "Volume One", icon: "⚔️", amazon: "https://www.amazon.com/dp/B0G3QMYYH8", img: "/covers/scoot1.jpg" },
-  { title: "Legacy of the Storm", sub: "Book One", icon: "⚡", amazon: "https://www.amazon.com/dp/B0G2JX1X5H", img: "/covers/legacy1.jpg" },
-  { title: "Ash & Ember", sub: "Volume One", icon: "🔥", amazon: "https://www.amazon.com/dp/B0D7P3FR2F", img: "/covers/ash1.jpg" },
+  { title: "Scoot & the Death Knight", sub: "Volume One", icon: "⚔️", amazon: "https://www.amazon.com/dp/B0G3QMYYH8", img: "/public/covers/scoot1.jpg" },
+  { title: "Legacy of the Storm", sub: "Book One", icon: "⚡", amazon: "https://www.amazon.com/dp/B0G2JX1X5H", img: "/public/covers/legacy1.jpg" },
+  { title: "Ash & Ember", sub: "Volume One", icon: "🔥", amazon: "https://www.amazon.com/dp/B0D7P3FR2F", img: "/public/covers/ash1.jpg" },
 ];
 // To add real cover images: place cover JPGs in /public/covers/ and set img to "/covers/scoot.jpg" etc.
 
@@ -594,12 +594,12 @@ function ARCSection() {
             </p>
             <div className="arc-note">
               <p>
-                WHAT I'M LIKELY TO ENJOY: Dark fantasy · Grimdark · YA fantasy · Mythological retellings · Morally complex characters · Stories with a sliver of hope at the end.
+                WHAT I'M LIKELY TO ENJOY: Dark fantasy · Grimdark · YA fantasy · Mythological retellings · Sci-Fi · Morally complex characters · Stories with a sliver of hope at the end.
               </p>
             </div>
             <div className="arc-note" style={{ marginTop: ".8rem" }}>
               <p>
-                WHAT I'M NOT LOOKING FOR: Hard sci-fi · Romance · Cozy fantasy · Anything without stakes.
+                WHAT I'M NOT LOOKING FOR: Romance · Cozy fantasy · Anything without stakes.
               </p>
             </div>
           </div>
