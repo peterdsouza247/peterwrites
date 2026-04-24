@@ -3,7 +3,7 @@ import { useForm, ValidationError } from "@formspree/react";
 
 // ── TOGGLE COMMISSIONS ON/OFF ─────────────────────────────────────────────────
 // Set to false when you're busy — visitors will see a polite closed message
-const COMMISSIONS_OPEN = false;
+const COMMISSIONS_OPEN = true;
 // ─────────────────────────────────────────────────────────────────────────────
 
 const GFONTS = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Upright:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Cormorant+SC:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400;1,600&family=Raleway:wght@300;400;500;600&display=swap');`;
@@ -33,14 +33,30 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 #ec{position:fixed;inset:0;pointer-events:none;z-index:10;}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.5rem 3.5rem;display:flex;justify-content:space-between;align-items:center;}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;}
 nav::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(4,6,10,.9) 0%,transparent 100%);backdrop-filter:blur(4px);-webkit-mask:linear-gradient(to bottom,black 60%,transparent);mask:linear-gradient(to bottom,black 60%,transparent);}
 .nav-brand{font-family:var(--font-head);font-size:1.1rem;font-weight:500;letter-spacing:.25em;color:var(--gilt);position:relative;text-shadow:0 0 20px rgba(192,144,64,.4);cursor:pointer;background:none;border:none;}
-.nav-links{display:flex;gap:2.5rem;list-style:none;position:relative;}
-.nav-links button{font-family:var(--font-label);font-size:.6rem;letter-spacing:.35em;font-weight:500;text-transform:uppercase;color:var(--ash);background:none;border:none;cursor:pointer;transition:color .3s;position:relative;padding:0;}
-.nav-links button::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:1px;background:var(--ember);transform:scaleX(0);transition:transform .3s;}
-.nav-links button:hover{color:var(--gilt);}
-.nav-links button:hover::after{transform:scaleX(1);}
+.nav-links{display:flex;gap:2rem;list-style:none;position:relative;align-items:center;}
+.nav-links button,.nav-links a{font-family:var(--font-label);font-size:.6rem;letter-spacing:.35em;font-weight:500;text-transform:uppercase;color:var(--ash);background:none;border:none;cursor:pointer;transition:color .3s;position:relative;padding:0;text-decoration:none;}
+.nav-links button::after,.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:1px;background:var(--ember);transform:scaleX(0);transition:transform .3s;}
+.nav-links button:hover,.nav-links a:hover{color:var(--gilt);}
+.nav-links button:hover::after,.nav-links a:hover::after{transform:scaleX(1);}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;position:relative;z-index:1;}
+.nav-hamburger span{display:block;width:22px;height:1px;background:var(--gilt);transition:all .3s;}
+.nav-hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.nav-hamburger.open span:nth-child(2){opacity:0;}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+@media(max-width:720px){
+  nav{padding:1rem 1.5rem;}
+  .nav-hamburger{display:flex;}
+  .nav-links{
+    display:none;position:fixed;top:0;left:0;right:0;bottom:0;
+    flex-direction:column;align-items:center;justify-content:center;
+    background:rgba(4,6,10,.97);gap:2.5rem;z-index:0;
+  }
+  .nav-links.open{display:flex;}
+  .nav-links button,.nav-links a{font-size:.75rem;letter-spacing:.4em;}
+}
 
 /* HERO */
 .hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 5rem;overflow:hidden;}
@@ -192,6 +208,44 @@ footer::before{content:'';position:absolute;top:0;left:25%;right:25%;height:1px;
   .book-links{flex-direction:column;}
 }
 
+/* CAROUSEL */
+#carousel{background:var(--deep);padding:5rem 0;}
+#carousel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(192,144,64,.15),transparent);}
+.carousel-header{text-align:center;padding:0 2rem 3rem;}
+.carousel-track-wrap{overflow:hidden;position:relative;}
+.carousel-track-wrap::before{content:'';position:absolute;top:0;left:0;bottom:0;width:80px;background:linear-gradient(to right,var(--deep),transparent);z-index:2;pointer-events:none;}
+.carousel-track-wrap::after{content:'';position:absolute;top:0;right:0;bottom:0;width:80px;background:linear-gradient(to left,var(--deep),transparent);z-index:2;pointer-events:none;}
+.carousel-track{display:flex;gap:2.5rem;padding:1rem 4rem 2rem;transition:transform .5s cubic-bezier(.4,0,.2,1);}
+.carousel-slide{flex:0 0 260px;position:relative;cursor:pointer;}
+.carousel-img-wrap{aspect-ratio:.65;background:var(--shadow);border:1px solid rgba(192,144,64,.1);overflow:hidden;position:relative;transition:all .4s;}
+.carousel-slide:hover .carousel-img-wrap{border-color:rgba(192,144,64,.3);box-shadow:0 0 40px rgba(191,63,16,.15);}
+.carousel-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
+.carousel-slide:hover .carousel-img-wrap img{transform:scale(1.04);}
+.carousel-img-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;background:linear-gradient(160deg,var(--shadow),#0e1520);}
+.carousel-placeholder-icon{font-size:3rem;filter:drop-shadow(0 0 20px rgba(191,63,16,.4));}
+.carousel-placeholder-title{font-family:var(--font-head);font-size:.85rem;font-weight:600;color:var(--parch);letter-spacing:.04em;text-align:center;padding:0 1rem;line-height:1.3;}
+.carousel-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(191,63,16,.12) 0%,transparent 70%);opacity:0;transition:opacity .4s;pointer-events:none;}
+.carousel-slide:hover .carousel-glow{opacity:1;}
+.carousel-caption{padding:.8rem .2rem 0;}
+.carousel-caption-title{font-family:var(--font-head);font-size:.8rem;font-weight:600;color:var(--parch);letter-spacing:.03em;margin-bottom:.15rem;}
+.carousel-caption-sub{font-family:var(--font-body);font-style:italic;font-size:.85rem;color:var(--gold);}
+.carousel-controls{display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-top:2.5rem;padding:0 2rem;}
+.carousel-btn{width:40px;height:40px;border:1px solid rgba(192,144,64,.2);background:transparent;color:var(--gold);font-size:1rem;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;}
+.carousel-btn:hover{border-color:var(--gold);background:rgba(192,144,64,.08);}
+.carousel-btn:disabled{opacity:.25;cursor:not-allowed;}
+.carousel-dots{display:flex;gap:.6rem;}
+.carousel-dot{width:6px;height:6px;border-radius:50%;background:rgba(192,144,64,.2);border:none;cursor:pointer;transition:all .3s;padding:0;}
+.carousel-dot.active{background:var(--gold);transform:scale(1.3);}
+
+/* ARC */
+#arc{background:var(--shadow);}
+#arc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(192,144,64,.15),transparent);}
+.arc-layout{display:grid;grid-template-columns:1fr 1.6fr;gap:6rem;align-items:start;margin-top:3rem;}
+.arc-lore{position:sticky;top:6rem;}
+.arc-lore p{font-style:italic;color:var(--ash);font-size:.95rem;line-height:1.8;margin-bottom:1.2rem;}
+.arc-note{margin-top:1.5rem;padding:1rem 1.2rem;border:1px solid rgba(192,144,64,.1);background:rgba(0,0,0,.2);}
+.arc-note p{font-family:var(--font-label);font-size:.52rem;letter-spacing:.2em;color:var(--ash);opacity:.7;line-height:1.7;font-style:normal;}
+
 /* COMMISSIONS */
 #commissions{background:var(--void);}
 #commissions::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(192,144,64,.2),transparent);}
@@ -228,7 +282,7 @@ footer::before{content:'';position:absolute;top:0;left:25%;right:25%;height:1px;
 .comm-success-title{font-family:var(--font-head);font-size:1.1rem;color:var(--gilt);margin-bottom:.6rem;}
 .comm-success-text{font-style:italic;color:var(--ash);font-size:1rem;line-height:1.7;}
 .comm-note{font-family:var(--font-label);font-size:.5rem;letter-spacing:.2em;color:var(--ash);opacity:.45;margin-top:1rem;text-align:center;line-height:1.6;}
-@media(max-width:900px){.comm-layout{grid-template-columns:1fr;gap:3rem;}.comm-lore{position:static;}.comm-row{grid-template-columns:1fr;}}
+@media(max-width:900px){.comm-layout{grid-template-columns:1fr;gap:3rem;}.comm-lore{position:static;}.comm-row{grid-template-columns:1fr;}.arc-layout{grid-template-columns:1fr;gap:3rem;}.arc-lore{position:static;}}
 
 /* PRICING TIERS */
 .pricing-block{margin-bottom:2rem;}
@@ -346,7 +400,217 @@ function Cursor() {
 const scrollTo = (id) =>
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
-// ── Books ─────────────────────────────────────────────────────────────────────
+// ── Carousel ──────────────────────────────────────────────────────────────────
+const COVERS = [
+  { title: "Scoot & the Death Knight", sub: "Volume One", icon: "⚔️", amazon: "https://www.amazon.com/dp/B0G3QMYYH8", img: "/covers/scoot1.jpg" },
+  { title: "Legacy of the Storm", sub: "Book One", icon: "⚡", amazon: "https://www.amazon.com/dp/B0G2JX1X5H", img: "/covers/legacy1.jpg" },
+  { title: "Ash & Ember", sub: "Volume One", icon: "🔥", amazon: "https://www.amazon.com/dp/B0D7P3FR2F", img: "/covers/ash1.jpg" },
+];
+// To add real cover images: place cover JPGs in /public/covers/ and set img to "/covers/scoot.jpg" etc.
+
+function Carousel() {
+  const [idx, setIdx] = useState(0);
+  const visibleCount = 3;
+  const max = Math.max(0, COVERS.length - visibleCount);
+
+  const prev = () => setIdx(i => Math.max(0, i - 1));
+  const next = () => setIdx(i => Math.min(max, i + 1));
+
+  return (
+    <section id="carousel">
+      <div className="carousel-header">
+        <div className="slabel" style={{ justifyContent: "center", marginBottom: ".8rem" }}>
+          <div className="slabel-line" />The Books<div className="slabel-line" />
+        </div>
+        <h2 className="stitle" style={{ fontSize: "clamp(1.4rem,3vw,2.2rem)" }}>Available Now</h2>
+      </div>
+      <div className="carousel-track-wrap">
+        <div className="carousel-track" style={{ transform: `translateX(calc(-${idx * (260 + 40)}px))` }}>
+          {COVERS.map((c, i) => (
+            <a key={i} className="carousel-slide" href={c.amazon} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+              <div className="carousel-img-wrap">
+                {c.img ? (
+                  <img src={c.img} alt={c.title} />
+                ) : (
+                  <div className="carousel-img-placeholder">
+                    <span className="carousel-placeholder-icon">{c.icon}</span>
+                    <span className="carousel-placeholder-title">{c.title}</span>
+                  </div>
+                )}
+                <div className="carousel-glow" />
+              </div>
+              <div className="carousel-caption">
+                <div className="carousel-caption-title">{c.title}</div>
+                <div className="carousel-caption-sub">{c.sub}</div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+      <div className="carousel-controls">
+        <button className="carousel-btn" onClick={prev} disabled={idx === 0}>◂</button>
+        <div className="carousel-dots">
+          {Array.from({ length: max + 1 }).map((_, i) => (
+            <button key={i} className={`carousel-dot${idx === i ? " active" : ""}`} onClick={() => setIdx(i)} />
+          ))}
+        </div>
+        <button className="carousel-btn" onClick={next} disabled={idx === max}>▸</button>
+      </div>
+    </section>
+  );
+}
+
+// ── ARC Form ──────────────────────────────────────────────────────────────────
+function ARCForm() {
+  const [state, handleSubmit] = useForm("mdayylon");
+
+  if (state.succeeded) {
+    return (
+      <div className="comm-form">
+        <div className="comm-form-inner">
+          <div className="comm-success">
+            <div className="comm-success-icon">📖</div>
+            <div className="comm-success-title">ARC Received</div>
+            <p className="comm-success-text">
+              Thank you — I've got your details. I'll reach out if I decide to take on your ARC. No promises on timing, but every submission gets a proper look.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="comm-form">
+      <div className="comm-form-inner">
+        <form onSubmit={handleSubmit}>
+          <input type="hidden" name="_subject" value="ARC Submission" />
+
+          <div className="comm-row">
+            <div className="comm-field">
+              <label className="comm-label" htmlFor="arc-name">Your Name *</label>
+              <input id="arc-name" name="name" className="comm-input" placeholder="Author name" required />
+              <ValidationError field="name" errors={state.errors} style={{ color: "var(--flame)", fontSize: ".8rem" }} />
+            </div>
+            <div className="comm-field">
+              <label className="comm-label" htmlFor="arc-email">Email *</label>
+              <input id="arc-email" name="email" type="email" className="comm-input" placeholder="you@example.com" required />
+              <ValidationError field="email" errors={state.errors} style={{ color: "var(--flame)", fontSize: ".8rem" }} />
+            </div>
+          </div>
+
+          <div className="comm-field">
+            <label className="comm-label" htmlFor="arc-title">Book Title *</label>
+            <input id="arc-title" name="book_title" className="comm-input" placeholder="Title of your book" required />
+            <ValidationError field="book_title" errors={state.errors} style={{ color: "var(--flame)", fontSize: ".8rem" }} />
+          </div>
+
+          <div className="comm-row">
+            <div className="comm-field">
+              <label className="comm-label" htmlFor="arc-genre">Genre</label>
+              <select id="arc-genre" name="genre" className="comm-select">
+                <option value="">— Genre —</option>
+                <option>Dark Fantasy</option>
+                <option>Epic Fantasy</option>
+                <option>YA Fantasy</option>
+                <option>Urban Fantasy</option>
+                <option>Horror</option>
+                <option>Sci-Fi</option>
+                <option>Grimdark</option>
+                <option>Literary Fiction</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div className="comm-field">
+              <label className="comm-label" htmlFor="arc-length">Word Count</label>
+              <select id="arc-length" name="word_count" className="comm-select">
+                <option value="">— Approximate length —</option>
+                <option>Under 20,000 words</option>
+                <option>20,000–50,000 words</option>
+                <option>50,000–80,000 words</option>
+                <option>80,000–120,000 words</option>
+                <option>Over 120,000 words</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="comm-field">
+            <label className="comm-label" htmlFor="arc-country">Country</label>
+            <select id="arc-country" name="country" className="comm-select">
+              <option value="">— Select your country —</option>
+              {["Afghanistan","Albania","Algeria","Argentina","Australia","Austria","Bangladesh","Belgium","Brazil","Canada","Chile","China","Colombia","Croatia","Czech Republic","Denmark","Egypt","Ethiopia","Finland","France","Germany","Ghana","Greece","Hungary","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Japan","Jordan","Kenya","Malaysia","Mexico","Morocco","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Romania","Russia","Saudi Arabia","Serbia","Singapore","South Africa","South Korea","Spain","Sri Lanka","Sweden","Switzerland","Taiwan","Tanzania","Thailand","Turkey","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Vietnam","Zimbabwe","Other"].map(c => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="comm-field">
+            <label className="comm-label" htmlFor="arc-blurb">Short Blurb *</label>
+            <textarea
+              id="arc-blurb"
+              name="blurb"
+              className="comm-textarea"
+              placeholder="Tell me what your book is about in a few sentences — pitch it like you would to a reader…"
+              rows={4}
+              required
+            />
+            <ValidationError field="blurb" errors={state.errors} style={{ color: "var(--flame)", fontSize: ".8rem" }} />
+          </div>
+
+          <div className="comm-field">
+            <label className="comm-label" htmlFor="arc-link">ARC Download Link</label>
+            <input id="arc-link" name="arc_link" className="comm-input" placeholder="BookFunnel, Google Drive, Dropbox, etc." />
+          </div>
+
+          <ValidationError errors={state.errors} style={{ color: "var(--flame)", fontFamily: "var(--font-label)", fontSize: ".6rem", letterSpacing: ".1em", marginBottom: ".8rem", display: "block" }} />
+
+          <button className="comm-submit" type="submit" disabled={state.submitting}>
+            {state.submitting ? "Sending…" : "📖 Submit ARC"}
+          </button>
+
+          <p className="comm-note" style={{ marginTop: "1rem" }}>
+            This is a hobby read — no timelines, no guarantees.<br />
+            If I take it on, I'll post an honest review to Goodreads.
+          </p>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function ARCSection() {
+  return (
+    <section id="arc">
+      <div className="si">
+        <div className="arc-layout">
+          <div className="arc-lore">
+            <div className="slabel"><div className="slabel-line" />Indie Author Support</div>
+            <h2 className="stitle">Submit<br />Your ARC</h2>
+            <p>
+              I read dark fantasy, speculative fiction, and YA because I love the genre — not as a job. If you're an indie author with an ARC and you think your work might resonate with a reader who lives in this space, I'd be glad to take a look.
+            </p>
+            <p>
+              No promises on timing or guarantee of a review. But if I finish it, I'll post an honest, considered review to Goodreads. Nothing more, nothing less.
+            </p>
+            <div className="arc-note">
+              <p>
+                WHAT I'M LIKELY TO ENJOY: Dark fantasy · Grimdark · YA fantasy · Mythological retellings · Morally complex characters · Stories with a sliver of hope at the end.
+              </p>
+            </div>
+            <div className="arc-note" style={{ marginTop: ".8rem" }}>
+              <p>
+                WHAT I'M NOT LOOKING FOR: Hard sci-fi · Romance · Cozy fantasy · Anything without stakes.
+              </p>
+            </div>
+          </div>
+          <ARCForm />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
 const BOOKS = [
   {
     id: "scoot",
@@ -703,6 +967,16 @@ function CommissionsForm() {
           </div>
 
           <div className="comm-field">
+            <label className="comm-label" htmlFor="country">Country</label>
+            <select id="country" name="country" className="comm-select">
+              <option value="">— Select your country —</option>
+              {["Afghanistan","Albania","Algeria","Argentina","Australia","Austria","Bangladesh","Belgium","Brazil","Canada","Chile","China","Colombia","Croatia","Czech Republic","Denmark","Egypt","Ethiopia","Finland","France","Germany","Ghana","Greece","Hungary","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Japan","Jordan","Kenya","Malaysia","Mexico","Morocco","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Romania","Russia","Saudi Arabia","Serbia","Singapore","South Africa","South Korea","Spain","Sri Lanka","Sweden","Switzerland","Taiwan","Tanzania","Thailand","Turkey","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Vietnam","Zimbabwe","Other"].map(c => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="comm-field">
             <label className="comm-label" htmlFor="brief">Your Brief *</label>
             <textarea
               id="brief"
@@ -792,6 +1066,9 @@ function CommissionsSection() {
           <div className="comm-lore">
             <div className="slabel"><div className="slabel-line" />Services</div>
             <h2 className="stitle">Commissions<br />&amp; Services</h2>
+            <p style={{ fontStyle: "italic", color: "var(--smoke)", fontSize: "1rem", lineHeight: 1.8, marginBottom: "1.8rem" }}>
+              If you like the work showcased here — the covers, the worlds, the attention to atmosphere — and you'd like something crafted in the same spirit for your own book, I'd love to hear from you.
+            </p>
             <div className="comm-services">
               <div className="comm-service">
                 <span className="comm-service-icon">🎨</span>
@@ -882,13 +1159,22 @@ export default function App() {
 
       <nav>
         <button className="nav-brand" onClick={() => scrollTo("hero")}>Peter Brendan</button>
-        <ul className="nav-links">
-          <li><button onClick={() => scrollTo("books")}>Works</button></li>
-          <li><button onClick={() => scrollTo("oracle")}>Oracle</button></li>
-          <li><button onClick={() => scrollTo("commissions")}>Services</button></li>
-          <li><button onClick={() => scrollTo("about")}>About</button></li>
-          <li><a href="https://linktr.ee/peterbrendanwrites" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "var(--font-label)", fontSize: ".62rem", letterSpacing: ".3em", textTransform: "uppercase", color: "var(--gilt)", textDecoration: "none", transition: "color .3s", opacity: .8 }}>Follow</a></li>
+        <ul className="nav-links" id="nav-links">
+          <li><button onClick={() => { scrollTo("books"); document.getElementById("nav-links").classList.remove("open"); document.getElementById("nav-hamburger").classList.remove("open"); }}>Works</button></li>
+          <li><button onClick={() => { scrollTo("carousel"); document.getElementById("nav-links").classList.remove("open"); document.getElementById("nav-hamburger").classList.remove("open"); }}>Covers</button></li>
+          <li><button onClick={() => { scrollTo("oracle"); document.getElementById("nav-links").classList.remove("open"); document.getElementById("nav-hamburger").classList.remove("open"); }}>Oracle</button></li>
+          <li><button onClick={() => { scrollTo("commissions"); document.getElementById("nav-links").classList.remove("open"); document.getElementById("nav-hamburger").classList.remove("open"); }}>Services</button></li>
+          <li><button onClick={() => { scrollTo("arc"); document.getElementById("nav-links").classList.remove("open"); document.getElementById("nav-hamburger").classList.remove("open"); }}>ARC</button></li>
+          <li><button onClick={() => { scrollTo("about"); document.getElementById("nav-links").classList.remove("open"); document.getElementById("nav-hamburger").classList.remove("open"); }}>About</button></li>
+          <li><a href="https://linktr.ee/peterbrendanwrites" target="_blank" rel="noopener noreferrer">Follow</a></li>
         </ul>
+        <button className="nav-hamburger" id="nav-hamburger" aria-label="Menu"
+          onClick={() => {
+            document.getElementById("nav-links").classList.toggle("open");
+            document.getElementById("nav-hamburger").classList.toggle("open");
+          }}>
+          <span /><span /><span />
+        </button>
       </nav>
 
       {/* HERO */}
@@ -945,6 +1231,9 @@ export default function App() {
         </div>
       </section>
 
+      {/* CAROUSEL */}
+      <Carousel />
+
       {/* ORACLE */}
       <section id="oracle">
         <div className="si">
@@ -963,6 +1252,9 @@ export default function App() {
 
       {/* COMMISSIONS */}
       <CommissionsSection />
+
+      {/* ARC */}
+      <ARCSection />
 
       {/* ABOUT */}
       <section id="about">
@@ -1027,7 +1319,7 @@ export default function App() {
           <div className="footer-social-divider" />
           <a href="https://linktr.ee/peterbrendanwrites" target="_blank" rel="noopener noreferrer">🔗 Linktree</a>
           <div className="footer-social-divider" />
-          <a href="https://www.goodreads.com/author/show/peterbrendan" target="_blank" rel="noopener noreferrer">📗 Goodreads</a>
+          <a href="https://www.goodreads.com/book/show/250808437-scoot-and-the-death-knight-volume-one" target="_blank" rel="noopener noreferrer">📗 Goodreads</a>
         </div>
         <p className="footer-copy">© {new Date().getFullYear()} Peter Brendan · All Rights Reserved · Forged in Fire</p>
       </footer>
