@@ -402,9 +402,9 @@ const scrollTo = (id) =>
 
 // ── Carousel ──────────────────────────────────────────────────────────────────
 const COVERS = [
-  { title: "Scoot & the Death Knight", sub: "Volume One", icon: "⚔️", amazon: "https://www.amazon.com/dp/B0G3QMYYH8", img: "public/covers/scoot1.jpg" },
-  { title: "Legacy of the Storm", sub: "Book One", icon: "⚡", amazon: "https://www.amazon.com/dp/B0G2JX1X5H", img: "public/covers/legacy1.jpg" },
-  { title: "Ash & Ember", sub: "Volume One", icon: "🔥", amazon: "https://www.amazon.com/dp/B0D7P3FR2F", img: "public/covers/ash1.jpg" },
+  { title: "Scoot & the Death Knight", sub: "Volume One", icon: "⚔️", amazon: "https://www.amazon.com/dp/B0G3QMYYH8", img: "/covers/scoot1.jpg" },
+  { title: "Legacy of the Storm", sub: "Book One", icon: "⚡", amazon: "https://www.amazon.com/dp/B0G2JX1X5H", img: "/covers/legacy1.jpg" },
+  { title: "Ash & Ember", sub: "Volume One", icon: "🔥", amazon: "https://www.amazon.com/dp/B0D7P3FR2F", img: "/covers/ash1.jpg" },
 ];
 // To add real cover images: place cover JPGs in /public/covers/ and set img to "/covers/scoot.jpg" etc.
 
