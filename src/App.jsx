@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useForm, ValidationError } from "@formspree/react";
 
 // ── TOGGLE COMMISSIONS ON/OFF ─────────────────────────────────────────────────
-// Set to false when you're busy — visitors will see a polite closed message
+// Set to false when you're busy - visitors will see a polite closed message
 const COMMISSIONS_OPEN = false;
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -472,7 +472,7 @@ function ARCForm() {
             <div className="comm-success-icon">📖</div>
             <div className="comm-success-title">ARC Received</div>
             <p className="comm-success-text">
-              Thank you — I've got your details. I'll reach out if I decide to take on your ARC. No promises on timing, but every submission gets a proper look.
+              Thank you - I've got your details. I'll reach out if I decide to take on your ARC. No promises on timing, but every submission gets a proper look.
             </p>
           </div>
         </div>
@@ -509,7 +509,7 @@ function ARCForm() {
             <div className="comm-field">
               <label className="comm-label" htmlFor="arc-genre">Genre</label>
               <select id="arc-genre" name="genre" className="comm-select">
-                <option value="">— Genre —</option>
+                <option value="">- Genre -</option>
                 <option>Dark Fantasy</option>
                 <option>Epic Fantasy</option>
                 <option>YA Fantasy</option>
@@ -524,7 +524,7 @@ function ARCForm() {
             <div className="comm-field">
               <label className="comm-label" htmlFor="arc-length">Word Count</label>
               <select id="arc-length" name="word_count" className="comm-select">
-                <option value="">— Approximate length —</option>
+                <option value="">- Approximate length -</option>
                 <option>Under 20,000 words</option>
                 <option>20,000–50,000 words</option>
                 <option>50,000–80,000 words</option>
@@ -537,7 +537,7 @@ function ARCForm() {
           <div className="comm-field">
             <label className="comm-label" htmlFor="arc-country">Country</label>
             <select id="arc-country" name="country" className="comm-select">
-              <option value="">— Select your country —</option>
+              <option value="">- Select your country -</option>
               {["Afghanistan","Albania","Algeria","Argentina","Australia","Austria","Bangladesh","Belgium","Brazil","Canada","Chile","China","Colombia","Croatia","Czech Republic","Denmark","Egypt","Ethiopia","Finland","France","Germany","Ghana","Greece","Hungary","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Japan","Jordan","Kenya","Malaysia","Mexico","Morocco","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Romania","Russia","Saudi Arabia","Serbia","Singapore","South Africa","South Korea","Spain","Sri Lanka","Sweden","Switzerland","Taiwan","Tanzania","Thailand","Turkey","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Vietnam","Zimbabwe","Other"].map(c => (
                 <option key={c} value={c}>{c}</option>
               ))}
@@ -550,7 +550,7 @@ function ARCForm() {
               id="arc-blurb"
               name="blurb"
               className="comm-textarea"
-              placeholder="Tell me what your book is about in a few sentences — pitch it like you would to a reader…"
+              placeholder="Tell me what your book is about in a few sentences - pitch it like you would to a reader…"
               rows={4}
               required
             />
@@ -569,7 +569,7 @@ function ARCForm() {
           </button>
 
           <p className="comm-note" style={{ marginTop: "1rem" }}>
-            This is a hobby read — no timelines, no guarantees.<br />
+            This is a hobby read - no timelines, no guarantees.<br />
             If I take it on, I'll post an honest review to Goodreads.
           </p>
         </form>
@@ -587,7 +587,7 @@ function ARCSection() {
             <div className="slabel"><div className="slabel-line" />Indie Author Support</div>
             <h2 className="stitle">Submit<br />Your ARC</h2>
             <p>
-              I read dark fantasy, speculative fiction, and YA because I love the genre — not as a job. If you're an indie author with an ARC and you think your work might resonate with a reader who lives in this space, I'd be glad to take a look.
+              I read dark fantasy, speculative fiction, and YA because I love the genre - not as a job. If you're an indie author with an ARC and you think your work might resonate with a reader who lives in this space, I'd be glad to take a look.
             </p>
             <p>
               No promises on timing or guarantee of a review. But if I finish it, I'll post an honest, considered review to Goodreads. Nothing more, nothing less.
@@ -619,7 +619,7 @@ const BOOKS = [
     icon: "⚔️",
     title: "Scoot & the Death Knight",
     sub: "An Ongoing Series",
-    blurb: "A young hero, a cursed warrior, a world where death is not the end — only the beginning of harder questions. Dark, funny, and full of heart.",
+    blurb: "A young hero, a cursed warrior, a world where death is not the end - only the beginning of harder questions. Dark, funny, and full of heart.",
     badge: "YA · Teen & Up",
     amazon: "https://www.amazon.com/dp/B0G3QMYYH8",
     goodreads: "https://www.goodreads.com/book/show/250808437-scoot-and-the-death-knight-volume-one",
@@ -631,7 +631,7 @@ const BOOKS = [
     icon: "⚡",
     title: "Legacy of the Storm",
     sub: "A Perseus Retelling",
-    blurb: "A brutal reimagining of the Perseus myth. Monsters are not born in the sea — they are made by gods, by pride, and by the silence of those who could have spoken.",
+    blurb: "A brutal reimagining of the Perseus myth. Monsters are not born in the sea - they are made by gods, by pride, and by the silence of those who could have spoken.",
     badge: "Adult Readers",
     amazon: "https://www.amazon.com/dp/B0G2JX1X5H",
     goodreads: "https://www.goodreads.com/book/show/250810191-legacy-of-the-storm-book-one",
@@ -643,7 +643,7 @@ const BOOKS = [
     icon: "🔥",
     title: "Ash & Ember",
     sub: "A Chronicle of a Dying Age",
-    blurb: "Five stories bound by a mythology of Four Fires. The Scribe of Cinders writes from the wreckage. Every tale burns differently — but all of them leave a mark.",
+    blurb: "Five stories bound by a mythology of Four Fires. The Scribe of Cinders writes from the wreckage. Every tale burns differently - but all of them leave a mark.",
     badge: "Adult Readers",
     amazon: "https://www.amazon.com/dp/B0D7P3FR2F",
     goodreads: "https://www.goodreads.com/book/show/250811317-ash-ember-a-chronicle-of-a-dying-age-volume-one",
@@ -704,7 +704,7 @@ function FeedbackPanel({ bookId }) {
         <div className="feedback-panel">
           <h4>Share Your Thoughts</h4>
           {submitted ? (
-            <div className="feedback-thanks">Thank you — your words have been received.</div>
+            <div className="feedback-thanks">Thank you - your words have been received.</div>
           ) : (
             <>
               <input
@@ -756,7 +756,7 @@ function FeedbackPanel({ bookId }) {
             </div>
           )}
           {reviews.length === 0 && !submitted && (
-            <div className="no-reviews">No entries yet — be the first.</div>
+            <div className="no-reviews">No entries yet - be the first.</div>
           )}
         </div>
       )}
@@ -772,13 +772,13 @@ const QUIZ = [
       { label: "A storm-struck sea, a monster rising", score: { legacy: 3, ash: 1, scoot: 1 } },
       { label: "A fire dying at the edge of a ruined world", score: { legacy: 1, ash: 3, scoot: 0 } },
       { label: "A crossroads, a young stranger, a wrong turn", score: { legacy: 0, ash: 1, scoot: 3 } },
-      { label: "Somewhere ancient — gods, myths, old debts", score: { legacy: 3, ash: 2, scoot: 0 } },
+      { label: "Somewhere ancient - gods, myths, old debts", score: { legacy: 3, ash: 2, scoot: 0 } },
     ],
   },
   {
     q: "What do you want most from a dark story?",
     choices: [
-      { label: "Epic scale — myth, fate, the weight of destiny", score: { legacy: 3, ash: 1, scoot: 0 } },
+      { label: "Epic scale - myth, fate, the weight of destiny", score: { legacy: 3, ash: 1, scoot: 0 } },
       { label: "Strange worlds with deep, unusual rules", score: { legacy: 1, ash: 3, scoot: 1 } },
       { label: "A hero I can root for against impossible odds", score: { legacy: 1, ash: 0, scoot: 3 } },
       { label: "Something short, sharp, and unforgettable", score: { legacy: 0, ash: 3, scoot: 1 } },
@@ -787,8 +787,8 @@ const QUIZ = [
   {
     q: "How long are you willing to linger in the dark?",
     choices: [
-      { label: "As long as it takes — give me the full epic", score: { legacy: 3, ash: 0, scoot: 1 } },
-      { label: "A few hours — I like my darkness in doses", score: { legacy: 0, ash: 3, scoot: 1 } },
+      { label: "As long as it takes - give me the full epic", score: { legacy: 3, ash: 0, scoot: 1 } },
+      { label: "A few hours - I like my darkness in doses", score: { legacy: 0, ash: 3, scoot: 1 } },
       { label: "Long enough to care, short enough to want more", score: { legacy: 1, ash: 1, scoot: 3 } },
     ],
   },
@@ -797,7 +797,7 @@ const QUIZ = [
 const RESULTS = {
   legacy: {
     title: "Legacy of the Storm",
-    blurb: "You want myth with weight — gods who wound and heroes who bleed. Begin with the Perseus retelling.",
+    blurb: "You want myth with weight - gods who wound and heroes who bleed. Begin with the Perseus retelling.",
     also: "If you want a second world: Ash & Ember.",
   },
   ash: {
@@ -902,7 +902,7 @@ function CommissionsForm() {
             <div className="comm-success-icon">✦</div>
             <div className="comm-success-title">Brief Received</div>
             <p className="comm-success-text">
-              Thank you — your brief has been sent. I'll review it and be in touch within a few days.
+              Thank you - your brief has been sent. I'll review it and be in touch within a few days.
               <br /><br />
               Good things take time. I'll give yours the attention it deserves.
             </p>
@@ -920,10 +920,10 @@ function CommissionsForm() {
           <div className="comm-field">
             <label className="comm-label" htmlFor="service">Service Required *</label>
             <select id="service" name="service" className="comm-select" required>
-              <option value="">— Select a service —</option>
+              <option value="">- Select a service -</option>
               <option value="Book Cover Design">Book Cover Design</option>
               <option value="Manuscript Review">Manuscript Review</option>
-              <option value="Both — Cover & Review">Both — Cover &amp; Review</option>
+              <option value="Both - Cover & Review">Both - Cover &amp; Review</option>
             </select>
             <ValidationError field="service" errors={state.errors} style={{ color: "var(--flame)", fontSize: ".8rem" }} />
           </div>
@@ -945,7 +945,7 @@ function CommissionsForm() {
             <div className="comm-field">
               <label className="comm-label" htmlFor="budget">Budget (USD)</label>
               <select id="budget" name="budget" className="comm-select">
-                <option value="">— Approximate budget —</option>
+                <option value="">- Approximate budget -</option>
                 <option value="Under $50">Under $50</option>
                 <option value="$50–$100">$50–$100</option>
                 <option value="$100–$250">$100–$250</option>
@@ -957,7 +957,7 @@ function CommissionsForm() {
             <div className="comm-field">
               <label className="comm-label" htmlFor="timeline">Timeline</label>
               <select id="timeline" name="timeline" className="comm-select">
-                <option value="">— When do you need it? —</option>
+                <option value="">- When do you need it? -</option>
                 <option value="Within 2 weeks">Within 2 weeks</option>
                 <option value="Within a month">Within a month</option>
                 <option value="1–3 months">1–3 months</option>
@@ -969,7 +969,7 @@ function CommissionsForm() {
           <div className="comm-field">
             <label className="comm-label" htmlFor="country">Country</label>
             <select id="country" name="country" className="comm-select">
-              <option value="">— Select your country —</option>
+              <option value="">- Select your country -</option>
               {["Afghanistan","Albania","Algeria","Argentina","Australia","Austria","Bangladesh","Belgium","Brazil","Canada","Chile","China","Colombia","Croatia","Czech Republic","Denmark","Egypt","Ethiopia","Finland","France","Germany","Ghana","Greece","Hungary","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Japan","Jordan","Kenya","Malaysia","Mexico","Morocco","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Romania","Russia","Saudi Arabia","Serbia","Singapore","South Africa","South Korea","Spain","Sri Lanka","Sweden","Switzerland","Taiwan","Tanzania","Thailand","Turkey","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Vietnam","Zimbabwe","Other"].map(c => (
                 <option key={c} value={c}>{c}</option>
               ))}
@@ -982,7 +982,7 @@ function CommissionsForm() {
               id="brief"
               name="brief"
               className="comm-textarea"
-              placeholder="Tell me about your project — genre, tone, what you're looking for, any references or ideas you have in mind…"
+              placeholder="Tell me about your project - genre, tone, what you're looking for, any references or ideas you have in mind…"
               rows={6}
               required
             />
@@ -996,7 +996,7 @@ function CommissionsForm() {
           </button>
 
           <p className="comm-note">
-            Submitting this form starts a conversation — no commitment, no payment yet.<br />
+            Submitting this form starts a conversation - no commitment, no payment yet.<br />
             I'll review your brief and reply within 2–4 business days.
           </p>
 
@@ -1017,7 +1017,7 @@ function TandCs() {
       {open && (
         <div className="tnc-body">
           <h4>Payment</h4>
-          <p>No payment is requested until after we've discussed your brief, agreed on scope, and you're happy to proceed. A 50% deposit is then required to secure your slot, with the remaining 50% due before final files are delivered. Payment is handled securely via Gumroad — a payment link will be sent to you directly once we've agreed on the project.</p>
+          <p>No payment is requested until after we've discussed your brief, agreed on scope, and you're happy to proceed. A 50% deposit is then required to secure your slot, with the remaining 50% due before final files are delivered. Payment is handled securely via Gumroad - a payment link will be sent to you directly once we've agreed on the project.</p>
           <h4>Turnaround</h4>
           <ul>
             <li>Book Cover Design: 2–3 weeks from deposit received</li>
@@ -1036,7 +1036,7 @@ function TandCs() {
             <li>Manuscript Review: Written feedback on plot, pacing, character, world-building, and prose. Does not include line editing, copyediting, or proofreading.</li>
           </ul>
           <h4>Queue & Availability</h4>
-          <p>Submitting a brief starts a conversation — it does not commit you to anything. Peter will review your brief, confirm availability, and discuss scope before any payment is requested. Your slot is only secured once the deposit is received.</p>
+          <p>Submitting a brief starts a conversation - it does not commit you to anything. Peter will review your brief, confirm availability, and discuss scope before any payment is requested. Your slot is only secured once the deposit is received.</p>
           <h4>Communication</h4>
           <p>All communication is via email. Response time is 1–3 business days. Peter reserves the right to decline any commission without obligation to provide a reason.</p>
         </div>
@@ -1067,21 +1067,21 @@ function CommissionsSection() {
             <div className="slabel"><div className="slabel-line" />Services</div>
             <h2 className="stitle">Commissions<br />&amp; Services</h2>
             <p style={{ fontStyle: "italic", color: "var(--smoke)", fontSize: "1rem", lineHeight: 1.8, marginBottom: "1.8rem" }}>
-              If you like the work showcased here — the covers, the worlds, the attention to atmosphere — and you'd like something crafted in the same spirit for your own book, I'd love to hear from you.
+              If you like the work showcased here - the covers, the worlds, the attention to atmosphere - and you'd like something crafted in the same spirit for your own book, I'd love to hear from you.
             </p>
             <div className="comm-services">
               <div className="comm-service">
                 <span className="comm-service-icon">🎨</span>
                 <div>
                   <div className="comm-service-title">Book Cover Design</div>
-                  <p className="comm-service-desc">Dark fantasy, literary fiction, and YA covers created using digital design tools and generated imagery. Atmospheric and built to stand out on Amazon. Not hand-illustrated — see pricing for what's included at each tier.</p>
+                  <p className="comm-service-desc">Dark fantasy, literary fiction, and YA covers created using digital design tools and generated imagery. Atmospheric and built to stand out on Amazon. Not hand-illustrated - see pricing for what's included at each tier.</p>
                 </div>
               </div>
               <div className="comm-service">
                 <span className="comm-service-icon">📜</span>
                 <div>
                   <div className="comm-service-title">Manuscript Review</div>
-                  <p className="comm-service-desc">Developmental feedback on fantasy and speculative fiction. Pacing, world-building, character, and prose — honest and constructive.</p>
+                  <p className="comm-service-desc">Developmental feedback on fantasy and speculative fiction. Pacing, world-building, character, and prose - honest and constructive.</p>
                 </div>
               </div>
             </div>
@@ -1117,7 +1117,7 @@ function CommissionsSection() {
             </div>
 
             <div style={{ marginTop: "1rem", marginBottom: ".5rem", fontFamily: "var(--font-label)", fontSize: ".5rem", letterSpacing: ".25em", color: "var(--ash)", opacity: .6, textTransform: "uppercase" }}>
-              🔒 Payments handled securely via Gumroad — details shared after we've agreed on scope
+              🔒 Payments handled securely via Gumroad - details shared after we've agreed on scope
             </div>
 
             <TandCs />
@@ -1131,7 +1131,7 @@ function CommissionsSection() {
                 <div className="comm-closed-icon">🕯️</div>
                 <div className="comm-closed-title">Commissions Currently Closed</div>
                 <p className="comm-closed-text">
-                  I'm not taking on new commissions at the moment — current projects have my full attention.
+                  I'm not taking on new commissions at the moment - current projects have my full attention.
                   <br /><br />
                   Check back soon, or follow me on Instagram to be notified when commissions reopen.
                 </p>
