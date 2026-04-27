@@ -230,6 +230,19 @@ footer::before{content:'';position:absolute;top:0;left:25%;right:25%;height:1px;
   .works-tab{padding:.4rem .8rem .5rem;font-size:.45rem;}
 }
 
+/* TRAILER */
+.trailer-wrap{margin-top:1.8rem;position:relative;}
+.trailer-label{font-family:var(--font-label);font-size:.48rem;letter-spacing:.35em;text-transform:uppercase;color:var(--ember);margin-bottom:.7rem;display:flex;align-items:center;gap:.5rem;}
+.trailer-label::before{content:'▶';font-size:.6rem;}
+.trailer-frame{position:relative;width:100%;max-width:220px;aspect-ratio:9/16;background:var(--shadow);border:1px solid rgba(192,144,64,.12);overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 30px rgba(191,63,16,.08);}
+.trailer-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
+.trailer-frame::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(191,63,16,.15) 0%,transparent 40%);pointer-events:none;}
+@media(max-width:800px){.trailer-frame{max-width:160px;}}
+
+/* WORKS CARD WITH TRAILER */
+.works-card-has-trailer{grid-template-columns:300px 1fr 220px;}
+@media(max-width:1100px){.works-card-has-trailer{grid-template-columns:260px 1fr;}.works-card-has-trailer .trailer-wrap{display:none;}}
+
 /* CAROUSEL (legacy - kept for reference) */
 #carousel{background:var(--deep);padding:5rem 0;}
 #carousel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(192,144,64,.15),transparent);}
@@ -441,7 +454,7 @@ function WorksCarousel() {
         <div className="slabel"><div className="slabel-line" />The Works</div>
         <h2 className="stitle">Three Worlds.<br />One Burning Thread.</h2>
 
-        <div className="works-card" key={animKey}>
+        <div className={`works-card${b.trailer ? " works-card-has-trailer" : ""}`} key={animKey}>
           <div className="works-cover-wrap">
             {b.img
               ? <img src={b.img} alt={b.title} className="works-cover-img" />
@@ -462,6 +475,19 @@ function WorksCarousel() {
             </div>
             <FeedbackPanel bookId={b.id} />
           </div>
+          {b.trailer && (
+            <div className="trailer-wrap">
+              <div className="trailer-label">Official Trailer</div>
+              <div className="trailer-frame">
+                <iframe
+                  src={`https://www.youtube.com/embed/${b.trailer}?rel=0&modestbranding=1`}
+                  title={`${b.title}  -  Official Trailer`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="works-controls">
@@ -670,6 +696,7 @@ const BOOKS = [
     amazon: "https://www.amazon.com/dp/B0G3QMYYH8",
     goodreads: "https://www.goodreads.com/book/show/250808437-scoot-and-the-death-knight-volume-one",
     img: "covers/scoot1.jpg",
+    trailer: "HImsjNKzjz4",
   },
   {
     id: "legacy",
