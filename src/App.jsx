@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useForm, ValidationError } from "@formspree/react";
 
 // ── TOGGLE COMMISSIONS ON/OFF ─────────────────────────────────────────────────
-// Set to false when you're busy — visitors will see a polite closed message
+// Set to false when you're busy  -  visitors will see a polite closed message
 const COMMISSIONS_OPEN = false;
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -208,7 +208,29 @@ footer::before{content:'';position:absolute;top:0;left:25%;right:25%;height:1px;
   .book-links{flex-direction:column;}
 }
 
-/* CAROUSEL */
+/* WORKS CAROUSEL */
+#books{background:var(--deep);}
+#books::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(191,63,16,.3),transparent);}
+.works-card{display:grid;grid-template-columns:300px 1fr;gap:5rem;align-items:start;margin-top:4rem;animation:rise .45s ease both;}
+.works-cover-wrap{position:relative;flex-shrink:0;}
+.works-cover-img{width:100%;display:block;border:1px solid rgba(192,144,64,.15);box-shadow:0 8px 60px rgba(0,0,0,.6),0 0 40px rgba(191,63,16,.12);}
+.works-cover-placeholder{aspect-ratio:.65;background:var(--shadow);border:1px solid rgba(192,144,64,.1);display:flex;align-items:center;justify-content:center;font-size:4rem;}
+.works-cover-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(191,63,16,.18) 0%,transparent 65%);pointer-events:none;}
+.works-info{padding-top:.5rem;position:relative;}
+.works-controls{display:flex;align-items:center;justify-content:center;gap:2rem;margin-top:3.5rem;padding-top:2.5rem;border-top:1px solid rgba(192,144,64,.07);}
+.works-tabs{display:flex;gap:0;}
+.works-tab{background:none;border:none;border-bottom:1px solid rgba(192,144,64,.12);padding:.5rem 1.4rem .6rem;font-family:var(--font-label);font-size:.5rem;letter-spacing:.3em;font-weight:500;text-transform:uppercase;color:var(--ash);opacity:.4;cursor:pointer;transition:all .25s;}
+.works-tab.active{color:var(--gilt);opacity:1;border-bottom-color:var(--ember);}
+.works-tab:hover:not(.active){opacity:.7;}
+@media(max-width:800px){
+  .works-card{grid-template-columns:1fr;gap:2.5rem;}
+  .works-cover-wrap{max-width:220px;margin:0 auto;}
+  .works-controls{gap:1rem;}
+  .works-tabs{gap:0;}
+  .works-tab{padding:.4rem .8rem .5rem;font-size:.45rem;}
+}
+
+/* CAROUSEL (legacy - kept for reference) */
 #carousel{background:var(--deep);padding:5rem 0;}
 #carousel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(192,144,64,.15),transparent);}
 .carousel-header{text-align:center;padding:0 2rem 3rem;}
@@ -400,78 +422,61 @@ function Cursor() {
 const scrollTo = (id) =>
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
-// ── Carousel ──────────────────────────────────────────────────────────────────
-const COVERS = [
-  { title: "Scoot & the Death Knight", sub: "Volume One", icon: "⚔️", amazon: "https://www.amazon.com/dp/B0G3QMYYH8", img: "/covers/scoot1.jpg" },
-  { title: "Legacy of the Storm", sub: "Book One", icon: "⚡", amazon: "https://www.amazon.com/dp/B0G2JX1X5H", img: "/covers/legacy1.jpg" },
-  { title: "Ash & Ember", sub: "Volume One", icon: "🔥", amazon: "https://www.amazon.com/dp/B0D7P3FR2F", img: "/covers/ash1.jpg" },
-];
-
-function Carousel() {
+// ── Works Carousel ────────────────────────────────────────────────────────────
+function WorksCarousel() {
   const [idx, setIdx] = useState(0);
-  const [mobile, setMobile] = useState(false);
+  const [animKey, setAnimKey] = useState(0);
 
-  useEffect(() => {
-    const check = () => setMobile(window.innerWidth < 720);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
+  const go = (i) => {
+    if (i === idx) return;
+    setIdx(i);
+    setAnimKey(k => k + 1);
+  };
 
-  useEffect(() => { setIdx(0); }, [mobile]);
-
-  const visibleCount = mobile ? 1 : 3;
-  const max = Math.max(0, COVERS.length - visibleCount);
-  const safeIdx = Math.min(idx, max);
-
-  const prev = () => setIdx(i => Math.max(0, i - 1));
-  const next = () => setIdx(i => Math.min(max, i + 1));
+  const b = BOOKS[idx];
 
   return (
-    <div id="carousel" style={{ background: "var(--deep)", padding: "5rem 0", position: "relative" }}>
-      <div style={{ content: '', position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(to right,transparent,rgba(192,144,64,.15),transparent)" }} />
-      <div className="carousel-header">
-        <div className="slabel" style={{ justifyContent: "center", marginBottom: ".8rem" }}>
-          <div className="slabel-line" />The Books<div className="slabel-line" />
+    <section id="books">
+      <div className="si">
+        <div className="slabel"><div className="slabel-line" />The Works</div>
+        <h2 className="stitle">Three Worlds.<br />One Burning Thread.</h2>
+
+        <div className="works-card" key={animKey}>
+          <div className="works-cover-wrap">
+            {b.img
+              ? <img src={b.img} alt={b.title} className="works-cover-img" />
+              : <div className="works-cover-placeholder">{b.icon}</div>
+            }
+            <div className="works-cover-glow" />
+          </div>
+          <div className="works-info">
+            <div className="bnum" style={{ position: "static", fontSize: "4rem", marginBottom: ".5rem" }}>{b.num}</div>
+            <div className="bgenre"><span className="bdot" />{b.genre}</div>
+            <h3 className="btitle">{b.title}</h3>
+            <div className="bsub">{b.sub}</div>
+            <p className="bblurb">{b.blurb}</p>
+            <span className="bbadge">{b.badge}</span>
+            <div className="book-links">
+              <a className="book-link amazon" href={b.amazon} target="_blank" rel="noopener noreferrer">📦 Amazon</a>
+              <a className="book-link goodreads" href={b.goodreads} target="_blank" rel="noopener noreferrer">📗 Goodreads</a>
+            </div>
+            <FeedbackPanel bookId={b.id} />
+          </div>
         </div>
-        <h2 className="stitle" style={{ fontSize: "clamp(1.4rem,3vw,2.2rem)" }}>Available Now</h2>
-      </div>
-      <div className="carousel-track-wrap">
-        <div className="carousel-track" style={mobile
-          ? { transform: `translateX(-${safeIdx * 100}%)`, gap: 0, padding: "1rem 0 2rem", transition: "transform .5s cubic-bezier(.4,0,.2,1)" }
-          : { transform: `translateX(calc(-${safeIdx * (260 + 40)}px))` }}>
-          {COVERS.map((c, i) => (
-            <a key={i} className="carousel-slide" href={c.amazon} target="_blank" rel="noopener noreferrer"
-              style={{ textDecoration: "none", ...(mobile ? { flex: "0 0 100%", padding: "0 2.5rem", boxSizing: "border-box" } : {}) }}>
-              <div className="carousel-img-wrap">
-                {c.img ? (
-                  <img src={c.img} alt={c.title} />
-                ) : (
-                  <div className="carousel-img-placeholder">
-                    <span className="carousel-placeholder-icon">{c.icon}</span>
-                    <span className="carousel-placeholder-title">{c.title}</span>
-                  </div>
-                )}
-                <div className="carousel-glow" />
-              </div>
-              <div className="carousel-caption">
-                <div className="carousel-caption-title">{c.title}</div>
-                <div className="carousel-caption-sub">{c.sub}</div>
-              </div>
-            </a>
-          ))}
+
+        <div className="works-controls">
+          <button className="carousel-btn" onClick={() => go(Math.max(0, idx - 1))} disabled={idx === 0}>◂</button>
+          <div className="works-tabs">
+            {BOOKS.map((bk, i) => (
+              <button key={i} className={`works-tab${idx === i ? " active" : ""}`} onClick={() => go(i)}>
+                {bk.title}
+              </button>
+            ))}
+          </div>
+          <button className="carousel-btn" onClick={() => go(Math.min(BOOKS.length - 1, idx + 1))} disabled={idx === BOOKS.length - 1}>▸</button>
         </div>
       </div>
-      <div className="carousel-controls">
-        <button className="carousel-btn" onClick={prev} disabled={safeIdx === 0}>◂</button>
-        <div className="carousel-dots">
-          {Array.from({ length: max + 1 }).map((_, i) => (
-            <button key={i} className={`carousel-dot${safeIdx === i ? " active" : ""}`} onClick={() => setIdx(i)} />
-          ))}
-        </div>
-        <button className="carousel-btn" onClick={next} disabled={safeIdx === max}>▸</button>
-      </div>
-    </div>
+    </section>
   );
 }
 
@@ -487,7 +492,7 @@ function ARCForm() {
             <div className="comm-success-icon">📖</div>
             <div className="comm-success-title">ARC Received</div>
             <p className="comm-success-text">
-              Thank you — I've got your details. I'll reach out if I decide to take on your ARC. No promises on timing, but every submission gets a proper look.
+              Thank you  -  I've got your details. I'll reach out if I decide to take on your ARC. No promises on timing, but every submission gets a proper look.
             </p>
           </div>
         </div>
@@ -524,7 +529,7 @@ function ARCForm() {
             <div className="comm-field">
               <label className="comm-label" htmlFor="arc-genre">Genre</label>
               <select id="arc-genre" name="genre" className="comm-select">
-                <option value="">— Genre —</option>
+                <option value=""> -  Genre  - </option>
                 <option>Dark Fantasy</option>
                 <option>Epic Fantasy</option>
                 <option>YA Fantasy</option>
@@ -539,7 +544,7 @@ function ARCForm() {
             <div className="comm-field">
               <label className="comm-label" htmlFor="arc-length">Word Count</label>
               <select id="arc-length" name="word_count" className="comm-select">
-                <option value="">— Approximate length —</option>
+                <option value=""> -  Approximate length  - </option>
                 <option>Under 20,000 words</option>
                 <option>20,000–50,000 words</option>
                 <option>50,000–80,000 words</option>
@@ -552,7 +557,7 @@ function ARCForm() {
           <div className="comm-field">
             <label className="comm-label" htmlFor="arc-country">Country</label>
             <select id="arc-country" name="country" className="comm-select">
-              <option value="">— Select your country —</option>
+              <option value=""> -  Select your country  - </option>
               {["Afghanistan","Albania","Algeria","Argentina","Australia","Austria","Bangladesh","Belgium","Brazil","Canada","Chile","China","Colombia","Croatia","Czech Republic","Denmark","Egypt","Ethiopia","Finland","France","Germany","Ghana","Greece","Hungary","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Japan","Jordan","Kenya","Malaysia","Mexico","Morocco","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Romania","Russia","Saudi Arabia","Serbia","Singapore","South Africa","South Korea","Spain","Sri Lanka","Sweden","Switzerland","Taiwan","Tanzania","Thailand","Turkey","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Vietnam","Zimbabwe","Other"].map(c => (
                 <option key={c} value={c}>{c}</option>
               ))}
@@ -565,7 +570,7 @@ function ARCForm() {
               id="arc-blurb"
               name="blurb"
               className="comm-textarea"
-              placeholder="Tell me what your book is about in a few sentences — pitch it like you would to a reader…"
+              placeholder="Tell me what your book is about in a few sentences  -  pitch it like you would to a reader…"
               rows={4}
               required
             />
@@ -584,7 +589,7 @@ function ARCForm() {
           </button>
 
           <p className="comm-note" style={{ marginTop: "1rem" }}>
-            This is a hobby read — no timelines, no guarantees.<br />
+            This is a hobby read  -  no timelines, no guarantees.<br />
             If I take it on, I'll post an honest review to Goodreads.
           </p>
         </form>
@@ -603,7 +608,7 @@ function ARCSection() {
             <div className="slabel"><div className="slabel-line" />Indie Author Support</div>
             <h2 className="stitle">Submit<br />Your ARC</h2>
             <p>
-              I read dark fantasy, speculative fiction, and YA because I love the genre — not as a job. If you're an indie author with an ARC and you think your work might resonate with a reader who lives in this space, I'd be glad to take a look.
+              I read dark fantasy, speculative fiction, and YA because I love the genre  -  not as a job. If you're an indie author with an ARC and you think your work might resonate with a reader who lives in this space, I'd be glad to take a look.
             </p>
             <p>
               No promises on timing or guarantee of a review. But if I finish it, I'll post an honest, considered review to Goodreads. Nothing more, nothing less.
@@ -660,10 +665,11 @@ const BOOKS = [
     icon: "⚔️",
     title: "Scoot & the Death Knight",
     sub: "An Ongoing Series",
-    blurb: "A young hero, a cursed warrior, a world where death is not the end — only the beginning of harder questions. Dark, funny, and full of heart.",
+    blurb: "A young hero, a cursed warrior, a world where death is not the end  -  only the beginning of harder questions. Dark, funny, and full of heart.",
     badge: "YA · Teen & Up",
     amazon: "https://www.amazon.com/dp/B0G3QMYYH8",
     goodreads: "https://www.goodreads.com/book/show/250808437-scoot-and-the-death-knight-volume-one",
+    img: "covers/scoot1.jpg",
   },
   {
     id: "legacy",
@@ -672,10 +678,11 @@ const BOOKS = [
     icon: "⚡",
     title: "Legacy of the Storm",
     sub: "A Perseus Retelling",
-    blurb: "A brutal reimagining of the Perseus myth. Monsters are not born in the sea — they are made by gods, by pride, and by the silence of those who could have spoken.",
+    blurb: "A brutal reimagining of the Perseus myth. Monsters are not born in the sea  -  they are made by gods, by pride, and by the silence of those who could have spoken.",
     badge: "Adult Readers",
     amazon: "https://www.amazon.com/dp/B0G2JX1X5H",
     goodreads: "https://www.goodreads.com/book/show/250810191-legacy-of-the-storm-book-one",
+    img: "covers/legacy1.jpg",
   },
   {
     id: "ash",
@@ -684,10 +691,11 @@ const BOOKS = [
     icon: "🔥",
     title: "Ash & Ember",
     sub: "A Chronicle of a Dying Age",
-    blurb: "Five stories bound by a mythology of Four Fires. The Scribe of Cinders writes from the wreckage. Every tale burns differently — but all of them leave a mark.",
+    blurb: "Five stories bound by a mythology of Four Fires. The Scribe of Cinders writes from the wreckage. Every tale burns differently  -  but all of them leave a mark.",
     badge: "Adult Readers",
     amazon: "https://www.amazon.com/dp/B0D7P3FR2F",
     goodreads: "https://www.goodreads.com/book/show/250811317-ash-ember-a-chronicle-of-a-dying-age-volume-one",
+    img: "covers/ash1.jpg",
   },
 ];
 
@@ -745,7 +753,7 @@ function FeedbackPanel({ bookId }) {
         <div className="feedback-panel">
           <h4>Share Your Thoughts</h4>
           {submitted ? (
-            <div className="feedback-thanks">Thank you — your words have been received.</div>
+            <div className="feedback-thanks">Thank you  -  your words have been received.</div>
           ) : (
             <>
               <input
@@ -797,7 +805,7 @@ function FeedbackPanel({ bookId }) {
             </div>
           )}
           {reviews.length === 0 && !submitted && (
-            <div className="no-reviews">No entries yet — be the first.</div>
+            <div className="no-reviews">No entries yet  -  be the first.</div>
           )}
         </div>
       )}
@@ -813,13 +821,13 @@ const QUIZ = [
       { label: "A storm-struck sea, a monster rising", score: { legacy: 3, ash: 1, scoot: 1 } },
       { label: "A fire dying at the edge of a ruined world", score: { legacy: 1, ash: 3, scoot: 0 } },
       { label: "A crossroads, a young stranger, a wrong turn", score: { legacy: 0, ash: 1, scoot: 3 } },
-      { label: "Somewhere ancient — gods, myths, old debts", score: { legacy: 3, ash: 2, scoot: 0 } },
+      { label: "Somewhere ancient  -  gods, myths, old debts", score: { legacy: 3, ash: 2, scoot: 0 } },
     ],
   },
   {
     q: "What do you want most from a dark story?",
     choices: [
-      { label: "Epic scale — myth, fate, the weight of destiny", score: { legacy: 3, ash: 1, scoot: 0 } },
+      { label: "Epic scale  -  myth, fate, the weight of destiny", score: { legacy: 3, ash: 1, scoot: 0 } },
       { label: "Strange worlds with deep, unusual rules", score: { legacy: 1, ash: 3, scoot: 1 } },
       { label: "A hero I can root for against impossible odds", score: { legacy: 1, ash: 0, scoot: 3 } },
       { label: "Something short, sharp, and unforgettable", score: { legacy: 0, ash: 3, scoot: 1 } },
@@ -828,8 +836,8 @@ const QUIZ = [
   {
     q: "How long are you willing to linger in the dark?",
     choices: [
-      { label: "As long as it takes — give me the full epic", score: { legacy: 3, ash: 0, scoot: 1 } },
-      { label: "A few hours — I like my darkness in doses", score: { legacy: 0, ash: 3, scoot: 1 } },
+      { label: "As long as it takes  -  give me the full epic", score: { legacy: 3, ash: 0, scoot: 1 } },
+      { label: "A few hours  -  I like my darkness in doses", score: { legacy: 0, ash: 3, scoot: 1 } },
       { label: "Long enough to care, short enough to want more", score: { legacy: 1, ash: 1, scoot: 3 } },
     ],
   },
@@ -838,7 +846,7 @@ const QUIZ = [
 const RESULTS = {
   legacy: {
     title: "Legacy of the Storm",
-    blurb: "You want myth with weight — gods who wound and heroes who bleed. Begin with the Perseus retelling.",
+    blurb: "You want myth with weight  -  gods who wound and heroes who bleed. Begin with the Perseus retelling.",
     also: "If you want a second world: Ash & Ember.",
   },
   ash: {
@@ -943,7 +951,7 @@ function CommissionsForm() {
             <div className="comm-success-icon">✦</div>
             <div className="comm-success-title">Brief Received</div>
             <p className="comm-success-text">
-              Thank you — your brief has been sent. I'll review it and be in touch within a few days.
+              Thank you  -  your brief has been sent. I'll review it and be in touch within a few days.
               <br /><br />
               Good things take time. I'll give yours the attention it deserves.
             </p>
@@ -961,10 +969,10 @@ function CommissionsForm() {
           <div className="comm-field">
             <label className="comm-label" htmlFor="service">Service Required *</label>
             <select id="service" name="service" className="comm-select" required>
-              <option value="">— Select a service —</option>
+              <option value=""> -  Select a service  - </option>
               <option value="Book Cover Design">Book Cover Design</option>
               <option value="Manuscript Review">Manuscript Review</option>
-              <option value="Both — Cover & Review">Both — Cover &amp; Review</option>
+              <option value="Both  -  Cover & Review">Both  -  Cover &amp; Review</option>
             </select>
             <ValidationError field="service" errors={state.errors} style={{ color: "var(--flame)", fontSize: ".8rem" }} />
           </div>
@@ -986,7 +994,7 @@ function CommissionsForm() {
             <div className="comm-field">
               <label className="comm-label" htmlFor="budget">Budget (USD)</label>
               <select id="budget" name="budget" className="comm-select">
-                <option value="">— Approximate budget —</option>
+                <option value=""> -  Approximate budget  - </option>
                 <option value="Under $50">Under $50</option>
                 <option value="$50–$100">$50–$100</option>
                 <option value="$100–$250">$100–$250</option>
@@ -998,7 +1006,7 @@ function CommissionsForm() {
             <div className="comm-field">
               <label className="comm-label" htmlFor="timeline">Timeline</label>
               <select id="timeline" name="timeline" className="comm-select">
-                <option value="">— When do you need it? —</option>
+                <option value=""> -  When do you need it?  - </option>
                 <option value="Within 2 weeks">Within 2 weeks</option>
                 <option value="Within a month">Within a month</option>
                 <option value="1–3 months">1–3 months</option>
@@ -1010,7 +1018,7 @@ function CommissionsForm() {
           <div className="comm-field">
             <label className="comm-label" htmlFor="country">Country</label>
             <select id="country" name="country" className="comm-select">
-              <option value="">— Select your country —</option>
+              <option value=""> -  Select your country  - </option>
               {["Afghanistan","Albania","Algeria","Argentina","Australia","Austria","Bangladesh","Belgium","Brazil","Canada","Chile","China","Colombia","Croatia","Czech Republic","Denmark","Egypt","Ethiopia","Finland","France","Germany","Ghana","Greece","Hungary","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Japan","Jordan","Kenya","Malaysia","Mexico","Morocco","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Romania","Russia","Saudi Arabia","Serbia","Singapore","South Africa","South Korea","Spain","Sri Lanka","Sweden","Switzerland","Taiwan","Tanzania","Thailand","Turkey","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Vietnam","Zimbabwe","Other"].map(c => (
                 <option key={c} value={c}>{c}</option>
               ))}
@@ -1023,7 +1031,7 @@ function CommissionsForm() {
               id="brief"
               name="brief"
               className="comm-textarea"
-              placeholder="Tell me about your project — genre, tone, what you're looking for, any references or ideas you have in mind…"
+              placeholder="Tell me about your project  -  genre, tone, what you're looking for, any references or ideas you have in mind…"
               rows={6}
               required
             />
@@ -1037,7 +1045,7 @@ function CommissionsForm() {
           </button>
 
           <p className="comm-note">
-            Submitting this form starts a conversation — no commitment, no payment yet.<br />
+            Submitting this form starts a conversation  -  no commitment, no payment yet.<br />
             I'll review your brief and reply within 2–4 business days.
           </p>
 
@@ -1058,7 +1066,7 @@ function TandCs() {
       {open && (
         <div className="tnc-body">
           <h4>Payment</h4>
-          <p>No payment is requested until after we've discussed your brief, agreed on scope, and you're happy to proceed. A 50% deposit is then required to secure your slot, with the remaining 50% due before final files are delivered. Payment is handled securely via Gumroad — a payment link will be sent to you directly once we've agreed on the project.</p>
+          <p>No payment is requested until after we've discussed your brief, agreed on scope, and you're happy to proceed. A 50% deposit is then required to secure your slot, with the remaining 50% due before final files are delivered. Payment is handled securely via Gumroad  -  a payment link will be sent to you directly once we've agreed on the project.</p>
           <h4>Turnaround</h4>
           <ul>
             <li>Book Cover Design: 2–3 weeks from deposit received</li>
@@ -1077,7 +1085,7 @@ function TandCs() {
             <li>Manuscript Review: Written feedback on plot, pacing, character, world-building, and prose. Does not include line editing, copyediting, or proofreading.</li>
           </ul>
           <h4>Queue & Availability</h4>
-          <p>Submitting a brief starts a conversation — it does not commit you to anything. Peter will review your brief, confirm availability, and discuss scope before any payment is requested. Your slot is only secured once the deposit is received.</p>
+          <p>Submitting a brief starts a conversation  -  it does not commit you to anything. Peter will review your brief, confirm availability, and discuss scope before any payment is requested. Your slot is only secured once the deposit is received.</p>
           <h4>Communication</h4>
           <p>All communication is via email. Response time is 1–3 business days. Peter reserves the right to decline any commission without obligation to provide a reason.</p>
         </div>
@@ -1109,21 +1117,21 @@ function CommissionsSection() {
             <div className="slabel"><div className="slabel-line" />Services</div>
             <h2 className="stitle">Commissions<br />&amp; Services</h2>
             <p style={{ fontStyle: "italic", color: "var(--smoke)", fontSize: "1rem", lineHeight: 1.8, marginBottom: "1.8rem" }}>
-              If you like the work showcased here — the covers, the worlds, the attention to atmosphere — and you'd like something crafted in the same spirit for your own book, I'd love to hear from you.
+              If you like the work showcased here  -  the covers, the worlds, the attention to atmosphere  -  and you'd like something crafted in the same spirit for your own book, I'd love to hear from you.
             </p>
             <div className="comm-services">
               <div className="comm-service">
                 <span className="comm-service-icon">🎨</span>
                 <div>
                   <div className="comm-service-title">Book Cover Design</div>
-                  <p className="comm-service-desc">Dark fantasy, literary fiction, and YA covers created using digital design tools and generated imagery. Atmospheric and built to stand out on Amazon. Not hand-illustrated — see pricing for what's included at each tier.</p>
+                  <p className="comm-service-desc">Dark fantasy, literary fiction, and YA covers created using digital design tools and generated imagery. Atmospheric and built to stand out on Amazon. Not hand-illustrated  -  see pricing for what's included at each tier.</p>
                 </div>
               </div>
               <div className="comm-service">
                 <span className="comm-service-icon">📜</span>
                 <div>
                   <div className="comm-service-title">Manuscript Review</div>
-                  <p className="comm-service-desc">Developmental feedback on fantasy and speculative fiction. Pacing, world-building, character, and prose — honest and constructive.</p>
+                  <p className="comm-service-desc">Developmental feedback on fantasy and speculative fiction. Pacing, world-building, character, and prose  -  honest and constructive.</p>
                 </div>
               </div>
             </div>
@@ -1166,7 +1174,7 @@ function CommissionsSection() {
                 </div>
 
                 <div style={{ marginTop: "1rem", fontFamily: "var(--font-label)", fontSize: ".5rem", letterSpacing: ".25em", color: "var(--ash)", opacity: .6, textTransform: "uppercase" }}>
-                  🔒 Payments handled securely via Gumroad — details shared after we've agreed on scope
+                  🔒 Payments handled securely via Gumroad  -  details shared after we've agreed on scope
                 </div>
               </div>
             )}
@@ -1182,7 +1190,7 @@ function CommissionsSection() {
                 <div className="comm-closed-icon">🕯️</div>
                 <div className="comm-closed-title">Commissions Currently Closed</div>
                 <p className="comm-closed-text">
-                  I'm not taking on new commissions at the moment — current projects have my full attention.
+                  I'm not taking on new commissions at the moment  -  current projects have my full attention.
                   <br /><br />
                   Check back soon, or follow me on Instagram to be notified when commissions reopen.
                 </p>
@@ -1249,38 +1257,8 @@ export default function App() {
         </div>
       </div>
 
-      {/* BOOKS + COVERS */}
-      <section id="books">
-        <div className="si">
-          <div className="slabel"><div className="slabel-line" />The Works</div>
-          <h2 className="stitle">Three Worlds.<br />One Burning Thread.</h2>
-          <div className="books-grid">
-            {BOOKS.map(b => (
-              <div key={b.id} className="bcard">
-                <div className="bnum">{b.num}</div>
-                <div className="bgenre"><span className="bdot" />{b.genre}</div>
-                <span className="bicon">{b.icon}</span>
-                <h3 className="btitle">{b.title}</h3>
-                <div className="bsub">{b.sub}</div>
-                <p className="bblurb">{b.blurb}</p>
-                <span className="bbadge">{b.badge}</span>
-                <div className="book-links">
-                  <a className="book-link amazon" href={b.amazon} target="_blank" rel="noopener noreferrer">
-                    📦 Amazon
-                  </a>
-                  <a className="book-link goodreads" href={b.goodreads} target="_blank" rel="noopener noreferrer">
-                    📗 Goodreads
-                  </a>
-                </div>
-                <FeedbackPanel bookId={b.id} />
-              </div>
-            ))}
-          </div>
-        </div>
-        <div style={{ borderTop: "1px solid rgba(192,144,64,.06)", marginTop: "5rem" }}>
-          <Carousel />
-        </div>
-      </section>
+      {/* WORKS */}
+      <WorksCarousel />
 
       {/* ORACLE */}
       <section id="oracle">
