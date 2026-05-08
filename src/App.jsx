@@ -1128,16 +1128,21 @@ function TandCs() {
   );
 }
 
+const INR_RATE = 90;
+const toINR = (usd) => Math.round(usd * INR_RATE / 10) * 10;
+const fmtINR = (lo, hi) => `₹${toINR(lo).toLocaleString("en-IN")}–${toINR(hi).toLocaleString("en-IN")}`;
+const fmtUSD = (lo, hi) => `$${lo}–${hi}`;
+
 const PRICING = {
   cover: [
-    { name: "Basic", price: "$15–25", desc: "Digital design using stock imagery, your title, and author name. Clean, professional, fast turnaround." },
-    { name: "Standard", price: "$40–60", desc: "Custom digital composition with generated imagery, mood-matched to your manuscript. 1 revision round." },
-    { name: "Custom", price: "$80–120", desc: "Bespoke digital design with generated artwork tailored to your story's identity. 2 revision rounds." },
+    { name: "Basic",    lo: 15,  hi: 25,  desc: "Digital design using stock imagery, your title, and author name. Clean, professional, fast turnaround." },
+    { name: "Standard", lo: 40,  hi: 60,  desc: "Custom digital composition with generated imagery, mood-matched to your manuscript. 1 revision round." },
+    { name: "Custom",   lo: 80,  hi: 120, desc: "Bespoke digital design with generated artwork tailored to your story's identity. 2 revision rounds." },
   ],
   review: [
-    { name: "Short Story", price: "$20–35", desc: "Up to 15,000 words. Written feedback on plot, character, pacing, and prose." },
-    { name: "Novella", price: "$50–80", desc: "15,000–40,000 words. Feedback plus notes on key passages and structural observations." },
-    { name: "Novel", price: "$100–150", desc: "40,000–100,000 words. Full manuscript critique and detailed written report." },
+    { name: "Short Story", lo: 20,  hi: 35,  desc: "Up to 15,000 words. Written feedback on plot, character, pacing, and prose." },
+    { name: "Novella",     lo: 50,  hi: 80,  desc: "15,000–40,000 words. Feedback plus notes on key passages and structural observations." },
+    { name: "Novel",       lo: 100, hi: 150, desc: "40,000–100,000 words. Full manuscript critique and detailed written report." },
   ],
 };
 
@@ -1186,7 +1191,10 @@ function CommissionsSection() {
                           <div className="ptier-name">{t.name}</div>
                           <div className="ptier-desc">{t.desc}</div>
                         </div>
-                        <div className="ptier-price">{t.price}</div>
+                        <div className="ptier-price">
+                          {fmtUSD(t.lo, t.hi)}
+                          <div style={{ fontSize: ".75rem", color: "var(--ash)", opacity: .65, marginTop: ".2rem", fontFamily: "var(--font-label)", letterSpacing: ".05em" }}>{fmtINR(t.lo, t.hi)}</div>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -1201,7 +1209,10 @@ function CommissionsSection() {
                           <div className="ptier-name">{t.name}</div>
                           <div className="ptier-desc">{t.desc}</div>
                         </div>
-                        <div className="ptier-price">{t.price}</div>
+                        <div className="ptier-price">
+                          {fmtUSD(t.lo, t.hi)}
+                          <div style={{ fontSize: ".75rem", color: "var(--ash)", opacity: .65, marginTop: ".2rem", fontFamily: "var(--font-label)", letterSpacing: ".05em" }}>{fmtINR(t.lo, t.hi)}</div>
+                        </div>
                       </div>
                     ))}
                   </div>
