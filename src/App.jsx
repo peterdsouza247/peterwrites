@@ -217,17 +217,18 @@ footer::before{content:'';position:absolute;top:0;left:25%;right:25%;height:1px;
 .works-cover-placeholder{aspect-ratio:.65;background:var(--shadow);border:1px solid rgba(192,144,64,.1);display:flex;align-items:center;justify-content:center;font-size:4rem;}
 .works-cover-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(191,63,16,.18) 0%,transparent 65%);pointer-events:none;}
 .works-info{padding-top:.5rem;position:relative;}
-.works-controls{display:flex;align-items:center;justify-content:center;gap:2rem;margin-top:3.5rem;padding-top:2.5rem;border-top:1px solid rgba(192,144,64,.07);}
-.works-tabs{display:flex;gap:0;}
-.works-tab{background:none;border:none;border-bottom:1px solid rgba(192,144,64,.12);padding:.5rem 1.4rem .6rem;font-family:var(--font-label);font-size:.5rem;letter-spacing:.3em;font-weight:500;text-transform:uppercase;color:var(--ash);opacity:.4;cursor:pointer;transition:all .25s;}
-.works-tab.active{color:var(--gilt);opacity:1;border-bottom-color:var(--ember);}
-.works-tab:hover:not(.active){opacity:.7;}
+.works-nav{display:flex;align-items:center;gap:1.5rem;margin-top:2.5rem;margin-bottom:3rem;}
+.works-tabs{display:flex;gap:0;flex:1;}
+.works-tab{background:none;border:none;border-bottom:2px solid rgba(192,144,64,.1);padding:.75rem 1.8rem .8rem;font-family:var(--font-label);font-size:.55rem;letter-spacing:.3em;font-weight:500;text-transform:uppercase;color:var(--ash);opacity:.5;cursor:pointer;transition:all .3s;position:relative;white-space:nowrap;}
+.works-tab::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--ember);transform:scaleX(0);transition:transform .3s;}
+.works-tab.active{color:var(--gilt);opacity:1;}
+.works-tab.active::after{transform:scaleX(1);}
+.works-tab:hover:not(.active){opacity:.75;color:var(--smoke);}
 @media(max-width:800px){
   .works-card{grid-template-columns:1fr;gap:2.5rem;}
   .works-cover-wrap{max-width:220px;margin:0 auto;}
-  .works-controls{gap:1rem;}
-  .works-tabs{gap:0;}
-  .works-tab{padding:.4rem .8rem .5rem;font-size:.45rem;}
+  .works-nav{gap:.8rem;margin-bottom:2rem;}
+  .works-tab{padding:.6rem .9rem .65rem;font-size:.48rem;letter-spacing:.2em;}
 }
 
 /* TRAILER DROPDOWN */
@@ -454,6 +455,18 @@ function WorksCarousel() {
         <div className="slabel"><div className="slabel-line" />The Works</div>
         <h2 className="stitle">Three Worlds.<br />One Burning Thread.</h2>
 
+        <div className="works-nav">
+          <button className="carousel-btn" onClick={() => go(Math.max(0, idx - 1))} disabled={idx === 0}>◂</button>
+          <div className="works-tabs">
+            {BOOKS.map((bk, i) => (
+              <button key={i} className={`works-tab${idx === i ? " active" : ""}`} onClick={() => go(i)}>
+                {bk.title}
+              </button>
+            ))}
+          </div>
+          <button className="carousel-btn" onClick={() => go(Math.min(BOOKS.length - 1, idx + 1))} disabled={idx === BOOKS.length - 1}>▸</button>
+        </div>
+
         <div className="works-card" key={animKey}>
           <div className="works-cover-wrap">
             {b.img
@@ -495,17 +508,6 @@ function WorksCarousel() {
           </div>
         </div>
 
-        <div className="works-controls">
-          <button className="carousel-btn" onClick={() => go(Math.max(0, idx - 1))} disabled={idx === 0}>◂</button>
-          <div className="works-tabs">
-            {BOOKS.map((bk, i) => (
-              <button key={i} className={`works-tab${idx === i ? " active" : ""}`} onClick={() => go(i)}>
-                {bk.title}
-              </button>
-            ))}
-          </div>
-          <button className="carousel-btn" onClick={() => go(Math.min(BOOKS.length - 1, idx + 1))} disabled={idx === BOOKS.length - 1}>▸</button>
-        </div>
       </div>
     </section>
   );
